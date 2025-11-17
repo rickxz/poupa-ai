@@ -1,0 +1,249 @@
+<html lang="pt-BR" class="overflow-x-hidden dark"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Login — Poupa AÍ</title>
+<!-- 1) Force dark BEFORE any CSS paints -->
+<script>
+document.documentElement.classList.add('dark'); // no-op if already present
+</script>
+<meta name="color-scheme" content="dark">
+<meta name="theme-color" content="#0a0a0a">
+<!-- 2) Tailwind: use class strategy (must be BEFORE the CDN script) -->
+<script>
+tailwind = { config: { darkMode: 'class' } };
+</script>
+<script src="https://cdn.tailwindcss.com"></script>
+<!-- Fonts -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700&display=swap" rel="stylesheet">
+<!-- FxFilter -->
+<script src="https://www.aura.build/FxFilter.js"></script>
+<!-- Visibility style (keep a single copy) -->
+<style id="aura-editor-visibility-style">
+.invisible { visibility: hidden !important; }
+</style>
+<!-- Optional: keyframes + on-scroll helper you already had -->
+<style>
+@keyframes fadeSlideIn {
+0% { opacity:0; transform:translateY(30px); filter:blur(8px); }
+100% { opacity:1; transform:translateY(0); filter:blur(0); }
+}
+</style>
+<script>
+(function () {
+const style = document.createElement("style");
+style.textContent = ".animate-on-scroll{animation-play-state:paused!important}.animate-on-scroll.animate{animation-play-state:running!important}";
+document.head.appendChild(style);
+const once = true;
+if (!window.__inViewIO) {
+window.__inViewIO = new IntersectionObserver((entries)=>{
+entries.forEach((e)=>{ if(e.isIntersecting){ e.target.classList.add("animate"); if(once) window.__inViewIO.unobserve(e.target); }});
+}, { threshold: 0.2, rootMargin: "0px 0px -10% 0px" });
+}
+window.initInViewAnimations = (sel=".animate-on-scroll") => {
+document.querySelectorAll(sel).forEach(el => window.__inViewIO.observe(el));
+};
+document.addEventListener("DOMContentLoaded", () => initInViewAnimations());
+})();
+</script><style>.animate-on-scroll{animation-play-state:paused!important}.animate-on-scroll.animate{animation-play-state:running!important}</style>
+<!-- Shared border-gradient helper -->
+<link id="all-fonts-link-font-geist" rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700&display=swap"><style id="all-fonts-style-font-geist">.font-geist{font-family:'Geist',sans-serif!important}</style><style id="border-gradient-shared-style">
+[style*="--border-gradient"]::before {
+content: "";
+position: absolute;
+inset: 0;
+padding: 1px;
+border-radius: var(--border-radius-before, inherit);
+-webkit-mask: linear-gradient(#fff 0 0) content-box,
+linear-gradient(#fff 0 0);
+-webkit-mask-composite: xor;
+mask-composite: exclude;
+background: var(--border-gradient);
+pointer-events: none;
+}</style></head>
+
+<body class="antialiased [color-scheme:dark] overflow-x-hidden selection:bg-white/10 selection:text-white text-neutral-100 bg-neutral-950" style="font-family: Inter, ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif">
+  <!-- Background (component) added by Aura -->
+  <div class="aura-background-component absolute top-0 w-full h-screen -z-10 saturate-200" data-alpha-mask="22" style="mask-image:linear-gradient(to bottom, transparent, black 0%, black 22%, transparent); -webkit-mask-image:linear-gradient(to bottom, transparent, black 0%, black 22%, transparent)">
+    <div data-us-project="0GgYfjJbH7HPIFyF1fSt" class="absolute top-0 left-0 -z-10 w-full h-full" data-us-initialized="true" data-scene-id="id-2wpg9eqn9u206qvd45cp13a"><canvas width="2013" height="1386" style="width: 1342px; height: 924px;" aria-label="Unicorn Studio Scene" role="img"></canvas></div>
+    <script>
+      !function(){if(!window.UnicornStudio){window.UnicornStudio={isInitialized:!1};var i=document.createElement("script");i.src="https://cdn.jsdelivr.net/gh/hiunicornstudio/unicornstudio.js@v1.4.29/dist/unicornStudio.umd.js",i.onload=function(){window.UnicornStudio.isInitialized||(UnicornStudio.init(),window.UnicornStudio.isInitialized=!0)},(document.head||document.body).appendChild(i)}}();
+    </script>
+  </div>
+
+<!-- Header -->
+<header class="sticky supports-[backdrop-filter]:bg-neutral-950/60 border-neutral-800 [animation:fadeSlideIn_0.8s_ease-out_0.1s_both] z-50 border-b top-0 backdrop-blur">
+  <div class="mx-auto max-w-7xl px-6 sm:px-8">
+    <div class="h-16 flex items-center justify-between">
+      <a href="poupa_ai.htm" class="flex items-center gap-2">
+        <span class="sm:text-lg text-base font-semibold tracking-tight font-geist">Poupa AÍ</span>
+      </a>
+
+      <nav class="hidden md:flex items-center gap-8">
+        <a href="poupa_ai.htm#features" class="text-sm text-neutral-400 hover:text-white transition-colors font-geist">Funcionalidades</a>
+        <a href="poupa_ai.htm#how-it-works" class="text-sm text-neutral-400 font-geist">Como Funciona</a>
+        <a href="poupa_ai.htm#pricing" class="text-sm dark:text-neutral-400 dark:hover:text-white transition-colors font-geist">Planos</a>
+        <a href="#" class="text-sm text-neutral-400 hover:text-white transition-colors font-geist">Educação</a>
+        <a href="#" class="inline-flex items-center gap-2 rounded-full px-5 py-2.5 text-sm font-medium tracking-tight transition font-geist bg-emerald-600 text-white hover:bg-emerald-700">
+          Comece Agora (Grátis)
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4">
+            <path d="M5 12h14"></path>
+            <path d="m12 5 7 7-7 7"></path>
+          </svg>
+        </a>
+      </nav>
+
+      <button id="mobile-nav-toggle" class="md:hidden inline-flex items-center justify-center rounded-lg border border-neutral-800 w-10 h-10">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5"><path d="M4 5h16"></path><path d="M4 12h16"></path><path d="M4 19h16"></path></svg>
+      </button>
+    </div>
+  </div>
+</header>
+
+<!-- Login Section -->
+<main class="min-h-screen flex items-center justify-center px-4 sm:px-6 py-12 sm:py-20">
+  <div class="w-full max-w-md [animation:fadeSlideIn_0.8s_ease-out_0.2s_both]">
+    <!-- Login Card -->
+    <div class="rounded-2xl ring-1 p-6 sm:p-8 border backdrop-blur-md bg-neutral-950/80 border-white/10 ring-white/5 shadow-[0_20px_60px_rgba(0,0,0,0.5)]">
+      <!-- Logo/Title -->
+      <div class="text-center mb-8 [animation:fadeSlideIn_0.8s_ease-out_0.3s_both]">
+        <h1 class="text-3xl sm:text-4xl font-light text-white tracking-tight font-geist mb-2">
+          Bem-vindo de volta
+        </h1>
+        <p class="text-neutral-400 text-sm sm:text-base font-geist">
+          Entre na sua conta para acessar seu dashboard financeiro
+        </p>
+      </div>
+
+      <!-- Login Form -->
+      <form action="#" method="POST" class="space-y-6 [animation:fadeSlideIn_0.8s_ease-out_0.4s_both]">
+        <!-- Email Field -->
+        <div>
+          <label for="login-email" class="sr-only font-geist">E-mail</label>
+          <div class="relative">
+            <div class="rounded-xl ring-1 border bg-neutral-900/95 ring-white/10 border-white/10 focus-within:ring-2 focus-within:ring-emerald-400/40 transition-all duration-300">
+              <input 
+                type="email" 
+                id="login-email" 
+                name="email" 
+                inputmode="email" 
+                autocomplete="email" 
+                placeholder="seu@email.com" 
+                required
+                class="w-full bg-transparent placeholder:text-white/60 outline-none text-base tracking-tight py-3 px-4 text-white/90 font-geist"
+              >
+            </div>
+            <!-- Error message (hidden by default) -->
+            <p id="email-error" class="mt-1 text-sm text-red-400 font-geist hidden"></p>
+          </div>
+        </div>
+
+        <!-- Password Field -->
+        <div>
+          <label for="login-password" class="sr-only font-geist">Senha</label>
+          <div class="relative">
+            <div class="rounded-xl ring-1 border bg-neutral-900/95 ring-white/10 border-white/10 focus-within:ring-2 focus-within:ring-emerald-400/40 transition-all duration-300">
+              <input 
+                type="password" 
+                id="login-password" 
+                name="password" 
+                autocomplete="current-password" 
+                placeholder="Digite sua senha" 
+                required
+                minlength="6"
+                class="w-full bg-transparent placeholder:text-white/60 outline-none text-base tracking-tight py-3 px-4 text-white/90 font-geist"
+              >
+            </div>
+            <!-- Error message (hidden by default) -->
+            <p id="password-error" class="mt-1 text-sm text-red-400 font-geist hidden"></p>
+          </div>
+        </div>
+
+        <!-- Forgot Password Link -->
+        <div class="flex items-center justify-end [animation:fadeSlideIn_0.8s_ease-out_0.5s_both]">
+          <a href="#" class="text-sm text-neutral-400 hover:text-emerald-300 transition-colors font-geist">
+            Esqueceu sua senha?
+          </a>
+        </div>
+
+        <!-- General Error Message (hidden by default) -->
+        <div id="general-error" class="hidden rounded-xl bg-red-500/10 border border-red-500/30 p-4">
+          <p class="text-sm text-red-400 font-geist text-center"></p>
+        </div>
+
+        <!-- Submit Button -->
+        <button 
+          type="submit" 
+          class="w-full inline-flex items-center justify-center rounded-full px-6 py-3.5 text-sm sm:text-base font-medium tracking-tight transition-all duration-300 hover:brightness-110 text-white ring-emerald-400/30 font-geist [animation:fadeSlideIn_0.8s_ease-out_0.6s_both]"
+          style="background: linear-gradient(135deg, rgb(16,185,129) 0%, rgb(5,150,105) 100%);"
+        >
+          <span class="relative z-10">Entrar</span>
+        </button>
+
+        <!-- Sign Up Link -->
+        <div class="text-center [animation:fadeSlideIn_0.8s_ease-out_0.7s_both]">
+          <p class="text-sm text-neutral-400 font-geist">
+            Não tem conta? 
+            <a href="#" class="text-emerald-300 hover:text-emerald-400 transition-colors font-medium">
+              Cadastre-se
+            </a>
+          </p>
+        </div>
+      </form>
+    </div>
+  </div>
+</main>
+
+<script>
+  // Basic form validation and error handling
+  document.querySelector('form').addEventListener('submit', function(e) {
+    e.preventDefault();
+    
+    const email = document.getElementById('login-email').value;
+    const password = document.getElementById('login-password').value;
+    const emailError = document.getElementById('email-error');
+    const passwordError = document.getElementById('password-error');
+    const generalError = document.getElementById('general-error');
+    
+    // Reset errors
+    emailError.classList.add('hidden');
+    passwordError.textContent = '';
+    passwordError.classList.add('hidden');
+    passwordError.textContent = '';
+    generalError.classList.add('hidden');
+    
+    let hasError = false;
+    
+    // Validate email
+    if (!email) {
+      emailError.textContent = 'O campo E-mail é obrigatório';
+      emailError.classList.remove('hidden');
+      hasError = true;
+    } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+      emailError.textContent = 'Formato de e-mail inválido';
+      emailError.classList.remove('hidden');
+      hasError = true;
+    }
+    
+    // Validate password
+    if (!password) {
+      passwordError.textContent = 'O campo Senha é obrigatório';
+      passwordError.classList.remove('hidden');
+      hasError = true;
+    } else if (password.length < 6) {
+      passwordError.textContent = 'A senha deve ter no mínimo 6 caracteres';
+      passwordError.classList.remove('hidden');
+      hasError = true;
+    }
+    
+    if (!hasError) {
+      // Here you would normally make an API call
+      // For now, just show a success message or redirect
+      console.log('Form submitted:', { email, password });
+      // window.location.href = '/dashboard';
+    }
+  });
+</script>
+
+</body></html>
+
