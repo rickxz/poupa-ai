@@ -5,7 +5,7 @@ import { Badge } from '@/components/ui/badge'
 export function AIAssistantSection() {
 	return (
 		<section className="sm:px-8 sm:mt-32 max-w-7xl mt-32 mr-auto ml-auto pr-6 pl-6">
-			<div className="grid grid-cols-1 lg:grid-cols-12 lg:gap-16 bg-gradient-to-br from-gray-500/10 via-gray-500/0 to-gray-500/10 rounded-3xl pt-8 pr-8 pb-8 pl-8 gap-y-12 items-center">
+			<div className="grid grid-cols-1 lg:grid-cols-12 lg:gap-16 bg-linear-to-br from-gray-500/10 via-gray-500/0 to-gray-500/10 rounded-3xl pt-8 pr-8 pb-8 pl-8 gap-y-12 items-center">
 				{/* Left: Content */}
 				<div className="lg:col-span-6">
 					<Badge className="inline-flex items-center gap-2 text-xs font-medium text-emerald-300 tracking-tight font-geist bg-emerald-600/10 ring-emerald-500/30 ring-1 rounded-full pt-1.5 pr-4 pb-1.5 pl-4">
@@ -59,9 +59,9 @@ export function AIAssistantSection() {
 								{/* Left: AI Core */}
 								<div className="flex flex-col items-center gap-2">
 									<div className="relative w-24 h-24 sm:w-28 sm:h-28 rounded-xl border ring-1 backdrop-blur-sm overflow-hidden border-white/10 bg-neutral-900/70 ring-white/10">
-										<div className="absolute -left-4 top-2 w-20 h-20 rounded-full bg-gradient-to-tr from-emerald-500/70 to-lime-500/40 blur-2xl"></div>
-										<div className="absolute left-6 top-1/2 -translate-y-1/2 w-14 h-14 rounded-full bg-gradient-to-tr to-emerald-500/30 blur-xl from-lime-400/70"></div>
-										<div className="absolute right-3 bottom-3 w-8 h-8 rounded-full bg-gradient-to-tr to-transparent blur-lg from-emerald-300/60"></div>
+										<div className="absolute -left-4 top-2 w-20 h-20 rounded-full bg-linear-to-tr from-emerald-500/70 to-lime-500/40 blur-2xl"></div>
+										<div className="absolute left-6 top-1/2 -translate-y-1/2 w-14 h-14 rounded-full bg-linear-to-tr to-emerald-500/30 blur-xl from-lime-400/70"></div>
+										<div className="absolute right-3 bottom-3 w-8 h-8 rounded-full bg-linear-to-tr to-transparent blur-lg from-emerald-300/60"></div>
 										<div
 											className="absolute inset-0 bg-cover ring-1 rounded-xl ring-white/5"
 											style={{
@@ -77,11 +77,11 @@ export function AIAssistantSection() {
 								<div className="flex flex-col items-center gap-2">
 									<div className="relative w-24 h-24 sm:w-28 sm:h-28 rounded-xl border ring-1 backdrop-blur-sm overflow-hidden border-white/10 bg-neutral-900/70 ring-white/10">
 										<div
-											className="absolute right-4 top-4 w-8 h-6 bg-gradient-to-br to-lime-500 from-emerald-400"
+											className="absolute right-4 top-4 w-8 h-6 bg-linear-to-br to-lime-500 from-emerald-400"
 											style={{ clipPath: 'polygon(0% 0%, 100% 0%, 70% 100%, 0% 100%)' }}
 										></div>
 										<div
-											className="absolute left-4 bottom-5 w-12 h-7 bg-gradient-to-br from-lime-500 to-emerald-500"
+											className="absolute left-4 bottom-5 w-12 h-7 bg-linear-to-br from-lime-500 to-emerald-500"
 											style={{ clipPath: 'polygon(0% 0%, 100% 0%, 85% 100%, 0% 100%)' }}
 										></div>
 										<div

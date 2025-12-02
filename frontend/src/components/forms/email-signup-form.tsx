@@ -57,11 +57,11 @@ export function EmailSignupForm() {
 				>
 					<span
 						aria-hidden="true"
-						className="absolute inset-px rounded-full bg-gradient-to-b from-white/[0.18] via-white/[0.08] to-white/[0.05] pointer-events-none"
+						className="absolute inset-px rounded-full bg-linear-to-b from-white/18 via-white/8 to-white/5 pointer-events-none"
 					></span>
 					<span
 						aria-hidden="true"
-						className="absolute left-1 right-1 top-1 h-1/2 rounded-full bg-gradient-to-b to-transparent pointer-events-none from-white/70"
+						className="absolute left-1 right-1 top-1 h-1/2 rounded-full bg-linear-to-b to-transparent pointer-events-none from-white/70"
 					></span>
 					<span
 						aria-hidden="true"
@@ -81,11 +81,11 @@ export function EmailSignupForm() {
 				>
 					<span
 						aria-hidden="true"
-						className="absolute inset-px rounded-full bg-gradient-to-b from-white/[0.18] via-white/[0.08] to-white/[0.05] pointer-events-none"
+						className="absolute inset-px rounded-full bg-linear-to-b from-white/18 via-white/8 to-white/5 pointer-events-none"
 					></span>
 					<span
 						aria-hidden="true"
-						className="absolute left-1 right-1 top-1 h-1/2 rounded-full bg-gradient-to-b to-transparent pointer-events-none from-white/70"
+						className="absolute left-1 right-1 top-1 h-1/2 rounded-full bg-linear-to-b to-transparent pointer-events-none from-white/70"
 					></span>
 					<span
 						aria-hidden="true"

@@ -1,7 +1,7 @@
 export function DashboardPage() {
 	return (
 		<div className="antialiased overflow-x-hidden selection:bg-white/10 selection:text-white text-neutral-100 bg-neutral-950 min-h-screen">
-			<header className="sticky supports-[backdrop-filter]:bg-neutral-950/60 border-neutral-800 z-50 border-b top-0 backdrop-blur">
+			<header className="sticky supports-backdrop-filter:bg-neutral-950/60 border-neutral-800 z-50 border-b top-0 backdrop-blur">
 				<div className="w-full px-4 sm:px-6 lg:px-8">
 					<div className="max-w-[1920px] mx-auto">
 						<div className="h-16 flex items-center justify-between">
@@ -46,7 +46,7 @@ export function DashboardPage() {
 							<div className="mt-6">
 								<p className="text-xs text-neutral-500 mb-3 uppercase tracking-wide">Navegação</p>
 								<nav className="space-y-3">
-									<a className="flex items-center justify-between rounded-xl bg-white/[0.06] ring-1 px-3 py-3 text-sm ring-white/10 text-white" href="#">
+									<a className="flex items-center justify-between rounded-xl bg-white/6 ring-1 px-3 py-3 text-sm ring-white/10 text-white" href="#">
 										<span className="inline-flex items-center gap-3">
 											<span className="inline-flex h-8 w-8 items-center justify-center rounded-lg ring-1 bg-white/10 ring-white/10">
 												<svg xmlns="http://www.w3.org/2000/svg" className="w-4 h-4 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
@@ -86,7 +86,7 @@ export function DashboardPage() {
 
 							<div className="mt-8">
 								<p className="text-xs text-neutral-500 mb-3 uppercase tracking-wide">Assistente de IA</p>
-								<div className="rounded-xl bg-white/[0.06] ring-1 p-3 flex items-center gap-3 ring-white/10">
+								<div className="rounded-xl bg-white/6 ring-1 p-3 flex items-center gap-3 ring-white/10">
 									<span className="inline-flex h-8 w-8 items-center justify-center rounded-lg bg-emerald-500/15 ring-1 text-emerald-300 ring-emerald-400/30">
 										<svg xmlns="http://www.w3.org/2000/svg" className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
 											<path d="M12 3v18"></path>
@@ -216,7 +216,7 @@ export function DashboardPage() {
 								<a href="#" className="text-sm text-emerald-300 hover:text-emerald-400 transition-colors">Ver todas</a>
 							</div>
 							<div className="space-y-3">
-								<div className="flex items-center justify-between p-3 rounded-xl ring-1 bg-white/[0.06] ring-white/10 hover:bg-white/[0.08] transition-colors">
+								<div className="flex items-center justify-between p-3 rounded-xl ring-1 bg-white/6 ring-white/10 hover:bg-white/8 transition-colors">
 									<div className="flex items-center gap-4 flex-1">
 										<div className="text-sm text-neutral-400 w-20">15/01</div>
 										<div className="flex-1">
@@ -247,7 +247,7 @@ export function DashboardPage() {
 									</div>
 								</div>
 
-								<div className="flex items-center justify-between p-3 rounded-xl ring-1 bg-white/[0.06] ring-white/10 hover:bg-white/[0.08] transition-colors">
+								<div className="flex items-center justify-between p-3 rounded-xl ring-1 bg-white/6 ring-white/10 hover:bg-white/8 transition-colors">
 									<div className="flex items-center gap-4 flex-1">
 										<div className="text-sm text-neutral-400 w-20">14/01</div>
 										<div className="flex-1">
@@ -278,7 +278,7 @@ export function DashboardPage() {
 									</div>
 								</div>
 
-								<div className="flex items-center justify-between p-3 rounded-xl ring-1 bg-white/[0.06] ring-white/10 hover:bg-white/[0.08] transition-colors">
+								<div className="flex items-center justify-between p-3 rounded-xl ring-1 bg-white/6 ring-white/10 hover:bg-white/8 transition-colors">
 									<div className="flex items-center gap-4 flex-1">
 										<div className="text-sm text-neutral-400 w-20">13/01</div>
 										<div className="flex-1">
@@ -309,7 +309,7 @@ export function DashboardPage() {
 									</div>
 								</div>
 
-								<div className="flex items-center justify-between p-3 rounded-xl ring-1 bg-white/[0.06] ring-white/10 hover:bg-white/[0.08] transition-colors">
+								<div className="flex items-center justify-between p-3 rounded-xl ring-1 bg-white/6 ring-white/10 hover:bg-white/8 transition-colors">
 									<div className="flex items-center gap-4 flex-1">
 										<div className="text-sm text-neutral-400 w-20">12/01</div>
 										<div className="flex-1">
@@ -340,7 +340,7 @@ export function DashboardPage() {
 									</div>
 								</div>
 
-								<div className="flex items-center justify-between p-3 rounded-xl ring-1 bg-white/[0.06] ring-white/10 hover:bg-white/[0.08] transition-colors">
+								<div className="flex items-center justify-between p-3 rounded-xl ring-1 bg-white/6 ring-white/10 hover:bg-white/8 transition-colors">
 									<div className="flex items-center gap-4 flex-1">
 										<div className="text-sm text-neutral-400 w-20">11/01</div>
 										<div className="flex-1">
@@ -382,35 +382,35 @@ export function DashboardPage() {
 									</div>
 								</div>
 								<div className="space-y-3">
-									<div className="flex items-center justify-between p-3 rounded-xl bg-white/[0.06] ring-1 ring-white/10">
+									<div className="flex items-center justify-between p-3 rounded-xl bg-white/6 ring-1 ring-white/10">
 										<div className="flex items-center gap-3">
 											<div className="w-3 h-3 rounded-full bg-emerald-400"></div>
 											<span className="text-sm text-white">Alimentação</span>
 										</div>
 										<span className="text-sm font-semibold text-white">35%</span>
 									</div>
-									<div className="flex items-center justify-between p-3 rounded-xl bg-white/[0.06] ring-1 ring-white/10">
+									<div className="flex items-center justify-between p-3 rounded-xl bg-white/6 ring-1 ring-white/10">
 										<div className="flex items-center gap-3">
 											<div className="w-3 h-3 rounded-full bg-emerald-500"></div>
 											<span className="text-sm text-white">Transporte</span>
 										</div>
 										<span className="text-sm font-semibold text-white">25%</span>
 									</div>
-									<div className="flex items-center justify-between p-3 rounded-xl bg-white/[0.06] ring-1 ring-white/10">
+									<div className="flex items-center justify-between p-3 rounded-xl bg-white/6 ring-1 ring-white/10">
 										<div className="flex items-center gap-3">
 											<div className="w-3 h-3 rounded-full bg-lime-400"></div>
 											<span className="text-sm text-white">Lazer</span>
 										</div>
 										<span className="text-sm font-semibold text-white">20%</span>
 									</div>
-									<div className="flex items-center justify-between p-3 rounded-xl bg-white/[0.06] ring-1 ring-white/10">
+									<div className="flex items-center justify-between p-3 rounded-xl bg-white/6 ring-1 ring-white/10">
 										<div className="flex items-center gap-3">
 											<div className="w-3 h-3 rounded-full bg-emerald-600"></div>
 											<span className="text-sm text-white">Saúde</span>
 										</div>
 										<span className="text-sm font-semibold text-white">15%</span>
 									</div>
-									<div className="flex items-center justify-between p-3 rounded-xl bg-white/[0.06] ring-1 ring-white/10">
+									<div className="flex items-center justify-between p-3 rounded-xl bg-white/6 ring-1 ring-white/10">
 										<div className="flex items-center gap-3">
 											<div className="w-3 h-3 rounded-full bg-neutral-500"></div>
 											<span className="text-sm text-white">Outros</span>
@@ -437,10 +437,10 @@ export function DashboardPage() {
 							</div>
 							<div className="relative blur-sm pointer-events-none">
 								<div className="space-y-3 opacity-50">
-									<div className="p-4 rounded-xl bg-white/[0.06] ring-1 ring-white/10">
+									<div className="p-4 rounded-xl bg-white/6 ring-1 ring-white/10">
 										<p className="text-sm text-neutral-400">Análise de padrões de gastos...</p>
 									</div>
-									<div className="p-4 rounded-xl bg-white/[0.06] ring-1 ring-white/10">
+									<div className="p-4 rounded-xl bg-white/6 ring-1 ring-white/10">
 										<p className="text-sm text-neutral-400">Sugestões de economia personalizadas...</p>
 									</div>
 								</div>
@@ -456,7 +456,7 @@ export function DashboardPage() {
 						<div className="rounded-2xl ring-1 p-5 border bg-neutral-900/95 ring-white/10 border-white/10 mt-6">
 							<h3 className="text-lg font-semibold tracking-tight text-white mb-4">Próximas Contas</h3>
 							<div className="space-y-3">
-								<div className="flex items-center justify-between p-4 rounded-xl ring-1 bg-white/[0.06] ring-white/10 hover:bg-white/[0.08] transition-colors">
+								<div className="flex items-center justify-between p-4 rounded-xl ring-1 bg-white/6 ring-white/10 hover:bg-white/8 transition-colors">
 									<div className="flex items-center gap-4 flex-1">
 										<div className="w-12 h-12 rounded-xl bg-emerald-500/15 ring-1 ring-emerald-400/30 flex items-center justify-center">
 											<svg xmlns="http://www.w3.org/2000/svg" className="w-6 h-6 text-emerald-300" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
@@ -475,7 +475,7 @@ export function DashboardPage() {
 									</div>
 								</div>
 
-								<div className="flex items-center justify-between p-4 rounded-xl ring-1 bg-white/[0.06] ring-white/10 hover:bg-white/[0.08] transition-colors">
+								<div className="flex items-center justify-between p-4 rounded-xl ring-1 bg-white/6 ring-white/10 hover:bg-white/8 transition-colors">
 									<div className="flex items-center gap-4 flex-1">
 										<div className="w-12 h-12 rounded-xl bg-emerald-500/15 ring-1 ring-emerald-400/30 flex items-center justify-center">
 											<svg xmlns="http://www.w3.org/2000/svg" className="w-6 h-6 text-emerald-300" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
@@ -493,7 +493,7 @@ export function DashboardPage() {
 									</div>
 								</div>
 
-								<div className="flex items-center justify-between p-4 rounded-xl ring-1 bg-white/[0.06] ring-white/10 hover:bg-white/[0.08] transition-colors">
+								<div className="flex items-center justify-between p-4 rounded-xl ring-1 bg-white/6 ring-white/10 hover:bg-white/8 transition-colors">
 									<div className="flex items-center gap-4 flex-1">
 										<div className="w-12 h-12 rounded-xl bg-lime-500/15 ring-1 ring-lime-400/30 flex items-center justify-center">
 											<svg xmlns="http://www.w3.org/2000/svg" className="w-6 h-6 text-lime-300" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
@@ -511,7 +511,7 @@ export function DashboardPage() {
 									</div>
 								</div>
 
-								<div className="flex items-center justify-between p-4 rounded-xl ring-1 bg-white/[0.06] ring-white/10 hover:bg-white/[0.08] transition-colors">
+								<div className="flex items-center justify-between p-4 rounded-xl ring-1 bg-white/6 ring-white/10 hover:bg-white/8 transition-colors">
 									<div className="flex items-center gap-4 flex-1">
 										<div className="w-12 h-12 rounded-xl bg-emerald-500/15 ring-1 ring-emerald-400/30 flex items-center justify-center">
 											<svg xmlns="http://www.w3.org/2000/svg" className="w-6 h-6 text-emerald-300" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">

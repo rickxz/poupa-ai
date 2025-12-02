@@ -31,7 +31,7 @@ const radarData = {
 export function BudgetSection() {
 	return (
 		<section className="sm:px-8 sm:mt-32 max-w-7xl mt-32 mr-auto ml-auto pr-6 pl-6">
-			<div className="grid grid-cols-1 lg:grid-cols-12 lg:gap-16 bg-gradient-to-br from-gray-500/10 via-gray-500/0 to-gray-500/10 rounded-3xl pt-8 pr-8 pb-8 pl-8 gap-y-12 items-center">
+			<div className="grid grid-cols-1 lg:grid-cols-12 lg:gap-16 bg-linear-to-br from-gray-500/10 via-gray-500/0 to-gray-500/10 rounded-3xl pt-8 pr-8 pb-8 pl-8 gap-y-12 items-center">
 				{/* Left: Visual Panel */}
 				<div className="lg:col-span-6">
 					<Card className="bg-black/40 border rounded-2xl pt-5 pr-5 pb-5 pl-5 shadow-xl shadow-black/20 border-white/10">

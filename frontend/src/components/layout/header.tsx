@@ -1,6 +1,5 @@
 import { useState } from 'react'
 import { Menu, X, ArrowRight } from 'lucide-react'
-import { Button } from '@/components/ui/button'
 import { Link } from 'react-router-dom'
 
 export function Header() {
