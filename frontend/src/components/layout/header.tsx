@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { Menu, X, ArrowRight } from 'lucide-react'
 import { Button } from '@/components/ui/button'
+import { Link } from 'react-router-dom'
 
 export function Header() {
 	const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
@@ -9,7 +10,7 @@ export function Header() {
 		<header className="sticky supports-backdrop-filter:bg-neutral-950/60 border-neutral-800 z-50 border-b top-0 backdrop-blur">
 			<div className="mx-auto max-w-7xl px-6 sm:px-8">
 				<div className="h-16 flex items-center justify-between">
-					<a href="#" className="flex items-center gap-2">
+					<a href="/" className="flex items-center gap-2">
 						<span className="sm:text-lg text-base font-semibold tracking-tight font-geist">Poupa AÍ</span>
 					</a>
 
@@ -26,10 +27,10 @@ export function Header() {
 						<a href="#" className="text-sm text-neutral-400 hover:text-white transition-colors font-geist">
 							Educação
 						</a>
-						<Button className="rounded-full px-5 py-2.5 text-sm font-medium tracking-tight font-geist bg-emerald-600 text-white hover:bg-emerald-700">
+						<Link to="/signup" className="flex gap-1 items-center rounded-full px-5 py-2.5 text-sm font-medium tracking-tight font-geist bg-emerald-600 text-white hover:bg-emerald-700">
 							Comece Agora (Grátis)
 							<ArrowRight className="w-4 h-4" />
-						</Button>
+						</Link>
 					</nav>
 
 					<button

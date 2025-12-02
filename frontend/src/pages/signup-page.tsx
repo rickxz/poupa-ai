@@ -4,24 +4,29 @@ import { z } from 'zod'
 import { Header } from '@/components/layout/header'
 import { Link } from 'react-router-dom'
 
-const loginSchema = z.object({
+const signupSchema = z.object({
+	name: z.string().min(1, 'Nome é obrigatório'),
 	email: z.string().email('Email inválido'),
 	password: z.string().min(6, 'A senha deve ter no mínimo 6 caracteres'),
+	confirmPassword: z.string().min(6, 'A senha deve ter no mínimo 6 caracteres'),
+}).refine((data) => data.password === data.confirmPassword, {
+	message: 'As senhas não coincidem',
+	path: ['confirmPassword'],
 })
 
-type LoginFormData = z.infer<typeof loginSchema>
+type SignupFormData = z.infer<typeof signupSchema>
 
-export function LoginPage() {
+export function SignupPage() {
 	const {
 		register,
 		handleSubmit,
 		formState: { errors, isSubmitting },
-	} = useForm<LoginFormData>({
-		resolver: zodResolver(loginSchema),
+	} = useForm<SignupFormData>({
+		resolver: zodResolver(signupSchema),
 	})
 
-	const onSubmit = async (data: LoginFormData) => {
-		console.log('Login data:', data)
+	const onSubmit = async (data: SignupFormData) => {
+		console.log('Signup data:', data)
 	}
 
 	return (
@@ -36,13 +41,29 @@ export function LoginPage() {
 				<div className="w-full max-w-md">
 					<div className="bg-neutral-900/50 backdrop-blur-sm border border-neutral-800 rounded-2xl p-8 shadow-2xl">
 						<div className="text-center mb-8">
-							<h1 className="text-3xl font-bold mb-2">Bem-vindo de volta</h1>
+							<h1 className="text-3xl font-bold mb-2">Crie sua conta</h1>
 							<p className="text-neutral-400">
-								Entre na sua conta para acessar seu dashboard financeiro
+								Comece a gerenciar suas finanças com inteligência
 							</p>
 						</div>
 
 						<form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
+							<div>
+								<label htmlFor="name" className="block text-sm font-medium mb-2">
+									Nome
+								</label>
+								<input
+									{...register('name')}
+									id="name"
+									type="text"
+									placeholder="Seu nome completo"
+									className="w-full px-4 py-3 bg-neutral-800/50 border border-neutral-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent transition-all"
+								/>
+								{errors.name && (
+									<p className="mt-1 text-sm text-red-400">{errors.name.message}</p>
+								)}
+							</div>
+
 							<div>
 								<label htmlFor="email" className="block text-sm font-medium mb-2">
 									E-mail
@@ -67,7 +88,7 @@ export function LoginPage() {
 									{...register('password')}
 									id="password"
 									type="password"
-									placeholder="Digite sua senha"
+									placeholder="Mínimo 6 caracteres"
 									className="w-full px-4 py-3 bg-neutral-800/50 border border-neutral-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent transition-all"
 								/>
 								{errors.password && (
@@ -75,13 +96,20 @@ export function LoginPage() {
 								)}
 							</div>
 
-							<div className="text-right">
-								<a
-									href="#"
-									className="text-sm text-neutral-400 hover:text-emerald-400 transition-colors"
-								>
-									Esqueceu sua senha?
-								</a>
+							<div>
+								<label htmlFor="confirmPassword" className="block text-sm font-medium mb-2">
+									Confirmar Senha
+								</label>
+								<input
+									{...register('confirmPassword')}
+									id="confirmPassword"
+									type="password"
+									placeholder="Confirme sua senha"
+									className="w-full px-4 py-3 bg-neutral-800/50 border border-neutral-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent transition-all"
+								/>
+								{errors.confirmPassword && (
+									<p className="mt-1 text-sm text-red-400">{errors.confirmPassword.message}</p>
+								)}
 							</div>
 
 							<button
@@ -89,14 +117,14 @@ export function LoginPage() {
 								disabled={isSubmitting}
 								className="w-full bg-emerald-500 hover:bg-emerald-600 disabled:bg-emerald-500/50 disabled:cursor-not-allowed text-white font-semibold py-3 rounded-lg transition-all shadow-lg shadow-emerald-500/20"
 							>
-								{isSubmitting ? 'Entrando...' : 'Entrar'}
+								{isSubmitting ? 'Cadastrando...' : 'Cadastrar'}
 							</button>
 						</form>
 
 						<p className="mt-6 text-center text-sm text-neutral-400">
-							Não tem conta?{' '}
-							<Link to="/signup" className="text-emerald-400 hover:text-emerald-300 transition-colors">
-								Cadastre-se
+							Já tem uma conta?{' '}
+							<Link to="/login" className="text-emerald-400 hover:text-emerald-300 transition-colors">
+								Entrar
 							</Link>
 						</p>
 					</div>
