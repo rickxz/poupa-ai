@@ -19,9 +19,8 @@ export function PricingSection() {
 
 	return (
 		<section id="pricing" className="sm:px-8 sm:mt-32 max-w-7xl mt-32 mr-auto ml-auto pr-6 pl-6">
-			<div className="sm:pt-8 sm:pl-8 sm:pr-8 sm:pb-8 bg-linear-to-br from-gray-500/10 via-gray-500/0 to-gray-500/10 rounded-3xl ring-0 pt-6 pr-8 pb-6 pl-8">
+			<div className="sm:pt-8 sm:pl-8 sm:pr-8 sm:pb-8 bg-gradient-to-br from-gray-500/10 via-gray-500/0 to-gray-500/10 rounded-3xl ring-0 pt-6 pr-8 pb-6 pl-8">
 				<div className="grid grid-cols-1 lg:grid-cols-12 lg:gap-10 gap-8">
-					{/* Left: Feature bullets */}
 					<div className="lg:col-span-5">
 						<div className="space-y-8">
 							<div>
@@ -84,11 +83,9 @@ export function PricingSection() {
 						</div>
 					</div>
 
-					{/* Right: Plans */}
 					<div className="lg:col-span-7">
 						<BillingToggle billingPeriod={billingPeriod} onToggle={toggleBilling} />
 
-						{/* Equal height cards */}
 						<div className="grid grid-cols-1 md:grid-cols-2 [grid-auto-rows:1fr] gap-x-6 gap-y-6 items-stretch max-w-3xl mx-auto">
 							<PricingCard
 								name="Plano Grátis"

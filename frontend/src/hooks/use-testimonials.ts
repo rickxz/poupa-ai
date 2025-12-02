@@ -9,14 +9,14 @@ export interface Testimonial {
 
 const testimonials: Testimonial[] = [
 	{
-		quote: 'Finalmente sei para onde meu dinheiro está indo. Os relatórios visuais do Poupa AÍ mudaram meu jogo.',
-		name: 'Marcos Silva',
+		quote: 'Os relatórios visuais do Poupa AÍ me ajudaram a economizar mais de R$ 300 em assinaturas que eu não usava.',
+		name: 'Júlia Pereira',
 		role: 'Gerente de Operações, São Paulo',
 		avatar: 'https://images.unsplash.com/photo-1607746882042-944635dfe10e?q=80&w=128&auto=format&fit=crop&ixlib=rb-4.0.3',
 	},
 	{
 		quote: 'Comecei como autônomo e o Poupa AÍ foi essencial para separar minhas contas pessoais das profissionais. Simples e direto.',
-		name: 'Ana Santos',
+		name: 'José Mendes',
 		role: 'Designer Freelancer, Rio de Janeiro',
 		avatar: 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?q=80&w=128&auto=format&fit=crop&ixlib=rb-4.0.3',
 	},

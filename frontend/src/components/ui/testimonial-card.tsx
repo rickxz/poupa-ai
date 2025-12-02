@@ -9,7 +9,7 @@ interface TestimonialCardProps {
 
 export function TestimonialCard({ quote, name, role, avatar }: TestimonialCardProps) {
 	return (
-		<Card className="sm:p-8 bg-linear-to-br rounded-2xl ring-0 px-6 py-6 relative shadow-[inset_0_1px_0_rgba(255,255,255,0.06),0_20px_60px_rgba(0,0,0,0.35)] backdrop-blur from-white/10 to-white/0">
+		<Card className="sm:p-8 bg-gradient-to-br rounded-2xl ring-0 px-6 py-6 relative shadow-[inset_0_1px_0_rgba(255,255,255,0.06),0_20px_60px_rgba(0,0,0,0.35)] backdrop-blur from-white/10 to-white/0">
 			<svg
 				xmlns="http://www.w3.org/2000/svg"
 				className="w-[34px] h-[34px] mb-4 text-emerald-400"

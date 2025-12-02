@@ -1,86 +1,18 @@
-import { useEffect, useRef } from 'react'
-import {
-	Chart as ChartJS,
-	CategoryScale,
-	LinearScale,
-	BarElement,
-	Title,
-	Tooltip,
-	Legend,
-	type ChartOptions,
-} from 'chart.js'
-import { Bar } from 'react-chartjs-2'
+import { BarChart as RechartsBar, Bar, XAxis, YAxis, CartesianGrid, ResponsiveContainer, Tooltip } from 'recharts'
 import { Badge } from '@/components/ui/badge'
 import { Card } from '@/components/ui/card'
 
-ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend)
-
-const chartData = {
-	labels: ['Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb', 'Dom'],
-	datasets: [
-		{
-			label: 'Orçamento',
-			data: [8, 19, 14, 27, 35, 22, 18],
-			backgroundColor: 'rgba(16, 185, 129, 0.45)',
-			borderColor: '#10b981',
-			borderWidth: 1,
-			borderRadius: 8,
-			barPercentage: 0.6,
-			categoryPercentage: 0.7,
-		},
-	],
-}
-
-const chartOptions: ChartOptions<'bar'> = {
-	responsive: true,
-	maintainAspectRatio: false,
-	plugins: {
-		legend: { display: false },
-		tooltip: {
-			backgroundColor: 'rgba(17,24,39,0.95)',
-			titleColor: '#fff',
-			bodyColor: '#e5e7eb',
-			displayColors: false,
-			padding: 10,
-		},
-	},
-	scales: {
-		x: {
-			grid: { color: 'rgba(255,255,255,0.06)' },
-			border: { display: false },
-			ticks: { color: 'rgba(255,255,255,0.65)', font: { size: 11 } },
-		},
-		y: {
-			grid: { color: 'rgba(255,255,255,0.06)' },
-			border: { display: false },
-			ticks: {
-				color: 'rgba(255,255,255,0.65)',
-				callback: (value) => `R$ ${value}k`,
-				maxTicksLimit: 5,
-			},
-		},
-	},
-}
+const chartData = [
+	{ name: 'Seg', value: 8 },
+	{ name: 'Ter', value: 19 },
+	{ name: 'Qua', value: 14 },
+	{ name: 'Qui', value: 27 },
+	{ name: 'Sex', value: 35 },
+	{ name: 'Sáb', value: 22 },
+	{ name: 'Dom', value: 18 },
+]
 
 export function DashboardMockup() {
-	const chartRef = useRef<ChartJS<'bar'>>(null)
-
-	useEffect(() => {
-		if (chartRef.current) {
-			const chart = chartRef.current
-			const ctx = chart.canvas.getContext('2d')
-			if (ctx) {
-				const gradient = ctx.createLinearGradient(0, 0, 0, chart.canvas.height || 192)
-				gradient.addColorStop(0, 'rgba(16, 185, 129, 0.45)')
-				gradient.addColorStop(1, 'rgba(16, 185, 129, 0.06)')
-				if (chart.data.datasets[0]) {
-					chart.data.datasets[0].backgroundColor = gradient
-				}
-				chart.update()
-			}
-		}
-	}, [])
-
 	return (
 		<div className="rounded-2xl ring-1 p-6 border backdrop-blur-md bg-neutral-950/80 border-white/10 ring-white/5 shadow-[0_20px_60px_rgba(0,0,0,0.5)]">
 			<div className="flex flex-col w-full h-full">
@@ -96,7 +28,42 @@ export function DashboardMockup() {
 
 				<div className="mt-4 grow">
 					<div className="relative h-48">
-						<Bar ref={chartRef} data={chartData} options={chartOptions} />
+						<ResponsiveContainer width="100%" height="100%">
+							<RechartsBar data={chartData}>
+								<CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.06)" />
+								<XAxis
+									dataKey="name"
+									tick={{ fill: 'rgba(255,255,255,0.65)', fontSize: 11 }}
+									stroke="rgba(255,255,255,0.06)"
+								/>
+								<YAxis
+									tick={{ fill: 'rgba(255,255,255,0.65)', fontSize: 11 }}
+									stroke="rgba(255,255,255,0.06)"
+									tickFormatter={(value) => `R$ ${value}k`}
+								/>
+								<Tooltip
+									contentStyle={{
+										backgroundColor: 'rgba(17,24,39,0.95)',
+										border: 'none',
+										borderRadius: '8px',
+										color: '#fff',
+									}}
+									labelStyle={{ color: '#fff' }}
+									itemStyle={{ color: '#e5e7eb' }}
+								/>
+								<Bar
+									dataKey="value"
+									fill="url(#dashboardGradient)"
+									radius={[8, 8, 0, 0]}
+								/>
+								<defs>
+									<linearGradient id="dashboardGradient" x1="0" y1="0" x2="0" y2="1">
+										<stop offset="0%" stopColor="rgba(16, 185, 129, 0.45)" />
+										<stop offset="100%" stopColor="rgba(16, 185, 129, 0.06)" />
+									</linearGradient>
+								</defs>
+							</RechartsBar>
+						</ResponsiveContainer>
 					</div>
 				</div>
 
@@ -124,4 +91,3 @@ export function DashboardMockup() {
 		</div>
 	)
 }
-

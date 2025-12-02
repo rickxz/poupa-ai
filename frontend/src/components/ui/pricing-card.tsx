@@ -18,20 +18,17 @@ export function PricingCard({ name, monthlyPrice, annualPrice, description, feat
 	const unit = billingPeriod === 'monthly' ? '/ mês' : '/ ano'
 
 	return (
-		<Card className="flex flex-col sm:p-6 h-full rounded-2xl ring-1 p-5 border bg-neutral-900/95 ring-white/10 border-white/10">
+		<Card className="flex flex-col p-5 sm:p-6 h-full rounded-2xl ring-1 border bg-neutral-900/95 ring-white/10 border-white/10">
 			<div className="flex items-start justify-between">
 				<p className="text-sm font-medium tracking-tight text-white">{name}</p>
 			</div>
 
 			<div className="mt-3">
 				<div className="flex gap-2 items-baseline">
-					<span className="price text-5xl font-light tracking-tight text-white">{price}</span>
-					<span className="price-unit text-sm text-neutral-400">{unit}</span>
+					<span className="text-5xl font-light tracking-tight text-white">{price}</span>
+					<span className="text-sm text-neutral-400">{unit}</span>
 				</div>
 				<p className="mt-2 text-sm text-neutral-400">{description}</p>
-				{billingPeriod === 'annual' && (
-					<p className="billing-note mt-1 text-xs text-neutral-500">Cobrado anualmente</p>
-				)}
 			</div>
 
 			<div className="mt-5 space-y-3">

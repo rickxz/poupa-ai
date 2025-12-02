@@ -1,17 +1,4 @@
-import { useEffect, useRef } from 'react'
-import {
-	Chart as ChartJS,
-	CategoryScale,
-	LinearScale,
-	BarElement,
-	Title,
-	Tooltip,
-	Legend,
-	type ChartOptions,
-} from 'chart.js'
-import { Bar } from 'react-chartjs-2'
-
-ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend)
+import { BarChart as RechartsBar, Bar, XAxis, YAxis, CartesianGrid, ResponsiveContainer, Tooltip } from 'recharts'
 
 interface BarChartProps {
 	data: {
@@ -31,57 +18,49 @@ interface BarChartProps {
 }
 
 export function BarChart({ data, height = 'h-64 sm:h-80 md:h-96' }: BarChartProps) {
-	const chartRef = useRef<ChartJS<'bar'>>(null)
-
-	useEffect(() => {
-		if (chartRef.current) {
-			const chart = chartRef.current
-			const ctx = chart.canvas.getContext('2d')
-			if (ctx && chart.data.datasets[0]) {
-				const gradient = ctx.createLinearGradient(0, 0, 0, chart.canvas.height || 256)
-				gradient.addColorStop(0, 'rgba(16, 185, 129, 0.45)')
-				gradient.addColorStop(1, 'rgba(16, 185, 129, 0.06)')
-				chart.data.datasets[0].backgroundColor = gradient
-				chart.update()
-			}
-		}
-	}, [])
-
-	const options: ChartOptions<'bar'> = {
-		responsive: true,
-		maintainAspectRatio: false,
-		plugins: {
-			legend: { display: false },
-			tooltip: {
-				backgroundColor: 'rgba(17,24,39,0.95)',
-				titleColor: '#fff',
-				bodyColor: '#e5e7eb',
-				displayColors: false,
-				padding: 10,
-			},
-		},
-		scales: {
-			x: {
-				grid: { color: 'rgba(255,255,255,0.06)' },
-				border: { display: false },
-				ticks: { color: 'rgba(255,255,255,0.65)', font: { size: 11 } },
-			},
-			y: {
-				grid: { color: 'rgba(255,255,255,0.06)' },
-				border: { display: false },
-				ticks: {
-					color: 'rgba(255,255,255,0.65)',
-					callback: (value) => `R$ ${value}k`,
-					maxTicksLimit: 5,
-				},
-			},
-		},
-	}
+	const chartData = data.labels.map((label, index) => ({
+		name: label,
+		value: data.datasets[0].data[index],
+	}))
 
 	return (
 		<div className={`relative ${height}`}>
-			<Bar ref={chartRef} data={data} options={options} />
+			<ResponsiveContainer width="100%" height="100%">
+				<RechartsBar data={chartData}>
+					<CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.06)" />
+					<XAxis
+						dataKey="name"
+						tick={{ fill: 'rgba(255,255,255,0.65)', fontSize: 11 }}
+						stroke="rgba(255,255,255,0.06)"
+					/>
+					<YAxis
+						tick={{ fill: 'rgba(255,255,255,0.65)', fontSize: 11 }}
+						stroke="rgba(255,255,255,0.06)"
+						tickFormatter={(value) => `R$ ${value}k`}
+					/>
+					<Tooltip
+						contentStyle={{
+							backgroundColor: 'rgba(17,24,39,0.95)',
+							border: 'none',
+							borderRadius: '8px',
+							color: '#fff',
+						}}
+						labelStyle={{ color: '#fff' }}
+						itemStyle={{ color: '#e5e7eb' }}
+					/>
+					<Bar
+						dataKey="value"
+						fill="url(#colorGradient)"
+						radius={[8, 8, 0, 0]}
+					/>
+					<defs>
+						<linearGradient id="colorGradient" x1="0" y1="0" x2="0" y2="1">
+							<stop offset="0%" stopColor="rgba(16, 185, 129, 0.45)" />
+							<stop offset="100%" stopColor="rgba(16, 185, 129, 0.06)" />
+						</linearGradient>
+					</defs>
+				</RechartsBar>
+			</ResponsiveContainer>
 		</div>
 	)
 }
-
