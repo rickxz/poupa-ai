@@ -76,12 +76,12 @@ export function LoginPage() {
 							</div>
 
 							<div className="text-right">
-								<a
-									href="#"
+								<Link
+									to="#"
 									className="text-sm text-neutral-400 hover:text-emerald-400 transition-colors"
 								>
 									Esqueceu sua senha?
-								</a>
+								</Link>
 							</div>
 
 							<button

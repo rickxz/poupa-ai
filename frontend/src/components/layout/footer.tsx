@@ -1,3 +1,5 @@
+import { Link } from 'react-router-dom'
+
 export function Footer() {
 	return (
 		<footer className="sm:px-8 sm:py-20 max-w-7xl border-neutral-800 border-t mt-24 mr-auto ml-auto pt-14 pr-6 pb-14 pl-6">
@@ -9,43 +11,43 @@ export function Footer() {
 				<div>
 					<h3 className="text-sm font-medium text-white font-geist mb-4">Produto</h3>
 					<nav className="space-y-3">
-						<a href="#" className="block hover:text-white text-sm text-neutral-400 font-geist">
+						<Link to="#" className="block hover:text-white text-sm text-neutral-400 font-geist">
 							Funcionalidades
-						</a>
-						<a href="#" className="block text-sm text-neutral-400 hover:text-white font-geist">
+						</Link>
+						<Link to="#" className="block text-sm text-neutral-400 hover:text-white font-geist">
 							Planos
-						</a>
-						<a href="#" className="block text-neutral-400 hover:text-white text-sm font-geist">
+						</Link>
+						<Link to="#" className="block text-neutral-400 hover:text-white text-sm font-geist">
 							Segurança
-						</a>
+						</Link>
 					</nav>
 				</div>
 				<div>
 					<h3 className="text-sm font-medium text-white mb-4 font-geist">Empresa</h3>
 					<nav className="space-y-3">
-						<a href="#" className="block text-sm text-neutral-400 hover:text-white font-geist">
+						<Link to="#" className="block text-sm text-neutral-400 hover:text-white font-geist">
 							Sobre
-						</a>
-						<a href="#" className="block text-sm text-neutral-400 hover:text-white font-geist">
+						</Link>
+						<Link to="#" className="block text-sm text-neutral-400 hover:text-white font-geist">
 							Blog
-						</a>
-						<a href="#" className="block text-sm text-neutral-400 hover:text-white font-geist">
+						</Link>
+						<Link to="#" className="block text-sm text-neutral-400 hover:text-white font-geist">
 							Carreiras
-						</a>
+						</Link>
 					</nav>
 				</div>
 				<div>
 					<h3 className="text-sm font-medium text-white mb-4 font-geist">Suporte</h3>
 					<nav className="space-y-3">
-						<a href="#" className="block text-sm text-neutral-400 hover:text-white font-geist">
+						<Link to="#" className="block text-sm text-neutral-400 hover:text-white font-geist">
 							Central de Ajuda
-						</a>
-						<a href="#" className="block text-sm text-neutral-400 hover:text-white font-geist">
+						</Link>
+						<Link to="#" className="block text-sm text-neutral-400 hover:text-white font-geist">
 							Contato
-						</a>
-						<a href="#" className="block text-sm text-neutral-400 hover:text-white font-geist">
+						</Link>
+						<Link to="#" className="block text-sm text-neutral-400 hover:text-white font-geist">
 							Privacidade
-						</a>
+						</Link>
 					</nav>
 				</div>
 			</div>

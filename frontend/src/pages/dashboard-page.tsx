@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { AddIncomeForm } from '@/components/forms/add-income-form'
 import { AddExpenseForm } from '@/components/forms/add-expense-form'
 import { NewTransactionForm } from '@/components/forms/new-transaction-form'
+import { Link } from 'react-router-dom'
 
 export function DashboardPage() {
 	const [isIncomeModalOpen, setIsIncomeModalOpen] = useState(false)
@@ -14,12 +15,12 @@ export function DashboardPage() {
 				<div className="w-full px-4 sm:px-6 lg:px-8">
 					<div className="max-w-[1920px] mx-auto">
 						<div className="h-16 flex items-center justify-between">
-							<a href="/" className="flex items-center gap-2">
+							<Link to="/" className="flex items-center gap-2">
 								<span className="sm:text-lg text-base font-semibold tracking-tight">Poupa AÍ</span>
-							</a>
+							</Link>
 
 							<nav className="hidden md:flex items-center gap-6">
-								<a href="/" className="text-sm text-neutral-400 hover:text-white transition-colors">Início</a>
+								<Link to="/" className="text-sm text-neutral-400 hover:text-white transition-colors">Início</Link>
 								<div className="flex items-center gap-3">
 									<img className="w-8 h-8 object-cover ring-1 rounded-full ring-white/15" src="https://hoirqrkdgbmvpwutwuwj-all.supabase.co/storage/v1/object/public/assets/assets/2f70140f-4f5d-4ce1-bec2-b36510d07e52_320w.webp" alt="User" />
 									<button className="text-sm text-neutral-400 hover:text-white transition-colors">Sair</button>
@@ -55,7 +56,7 @@ export function DashboardPage() {
 							<div className="mt-6">
 								<p className="text-xs text-neutral-500 mb-3 uppercase tracking-wide">Navegação</p>
 								<nav className="space-y-3">
-									<a className="flex items-center justify-between rounded-xl bg-white/6 ring-1 px-3 py-3 text-sm ring-white/10 text-white" href="#">
+									<Link to="#" className="flex items-center justify-between rounded-xl bg-white/6 ring-1 px-3 py-3 text-sm ring-white/10 text-white">
 										<span className="inline-flex items-center gap-3">
 											<span className="inline-flex h-8 w-8 items-center justify-center rounded-lg ring-1 bg-white/10 ring-white/10">
 												<svg xmlns="http://www.w3.org/2000/svg" className="w-4 h-4 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
@@ -68,9 +69,9 @@ export function DashboardPage() {
 											Visão Geral
 										</span>
 										<span className="h-2 w-2 rounded-full bg-emerald-400"></span>
-									</a>
+									</Link>
 
-									<a className="flex items-center gap-3 rounded-xl ring-1 px-3 py-3 text-sm transition-colors hover:bg-white/5 ring-white/10 text-neutral-300" href="#">
+									<Link to="#" className="flex items-center gap-3 rounded-xl ring-1 px-3 py-3 text-sm transition-colors hover:bg-white/5 ring-white/10 text-neutral-300">
 										<span className="inline-flex h-8 w-8 items-center justify-center rounded-lg ring-1 bg-white/5 ring-white/10">
 											<svg xmlns="http://www.w3.org/2000/svg" className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
 												<path d="M18 6H6"></path>
@@ -79,9 +80,9 @@ export function DashboardPage() {
 											</svg>
 										</span>
 										Transações
-									</a>
+									</Link>
 
-									<a className="flex items-center gap-3 rounded-xl ring-1 px-3 py-3 text-sm transition-colors hover:bg-white/5 ring-white/10 text-neutral-300" href="#">
+									<Link to="#" className="flex items-center gap-3 rounded-xl ring-1 px-3 py-3 text-sm transition-colors hover:bg-white/5 ring-white/10 text-neutral-300">
 										<span className="inline-flex h-8 w-8 items-center justify-center rounded-lg ring-1 bg-white/5 ring-white/10">
 											<svg xmlns="http://www.w3.org/2000/svg" className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
 												<rect x="2" y="5" width="20" height="14" rx="2"></rect>
@@ -89,7 +90,7 @@ export function DashboardPage() {
 											</svg>
 										</span>
 										Categorias
-									</a>
+									</Link>
 								</nav>
 							</div>
 
@@ -222,7 +223,7 @@ export function DashboardPage() {
 						<div className="rounded-2xl ring-1 p-5 border bg-neutral-900/95 ring-white/10 border-white/10 mt-6">
 							<div className="flex items-center justify-between mb-4">
 								<h3 className="text-lg font-semibold tracking-tight text-white">Transações Recentes</h3>
-								<a href="#" className="text-sm text-emerald-300 hover:text-emerald-400 transition-colors">Ver todas</a>
+								<Link to="#" className="text-sm text-emerald-300 hover:text-emerald-400 transition-colors">Ver todas</Link>
 							</div>
 							<div className="space-y-3">
 								<div className="flex items-center justify-between p-3 rounded-xl ring-1 bg-white/6 ring-white/10 hover:bg-white/8 transition-colors">

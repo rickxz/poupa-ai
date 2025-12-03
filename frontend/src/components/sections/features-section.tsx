@@ -1,4 +1,4 @@
-import { Search, LayoutGrid, List, CreditCard, TrendingDown, Clock, Wallet } from 'lucide-react'
+import { Search, LayoutGrid, List, CreditCard, TrendingDown, Clock, Wallet, Link } from 'lucide-react'
 import { Input } from '@/components/ui/input'
 import { Card } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
@@ -42,8 +42,8 @@ export function FeaturesSection() {
 								<div className="mt-6">
 									<p className="text-xs text-neutral-500 mb-3 uppercase tracking-wide font-geist">Navegação</p>
 									<nav className="space-y-3">
-										<a
-											href="#"
+										<Link
+											to="#"
 											className="flex items-center justify-between rounded-xl bg-white/6 ring-1 px-3 py-3 text-sm ring-white/10 text-white"
 										>
 											<span className="inline-flex items-center gap-3 font-geist">
@@ -53,27 +53,27 @@ export function FeaturesSection() {
 												Visão Geral
 											</span>
 											<span className="h-2 w-2 rounded-full bg-emerald-400"></span>
-										</a>
+										</Link>
 
-										<a
-											href="#"
+										<Link
+											to="#"
 											className="flex items-center gap-3 rounded-xl ring-1 px-3 py-3 text-sm transition-colors font-geist hover:bg-white/5 ring-white/10 text-neutral-300"
 										>
 											<span className="inline-flex h-8 w-8 items-center justify-center rounded-lg ring-1 bg-white/5 ring-white/10">
 												<List className="w-4 h-4" />
 											</span>
 											Transações
-										</a>
+										</Link>
 
-										<a
-											href="#"
+										<Link
+											to="#"
 											className="flex items-center gap-3 rounded-xl ring-1 px-3 py-3 text-sm transition-colors font-geist hover:bg-white/5 ring-white/10 text-neutral-300"
 										>
 											<span className="inline-flex h-8 w-8 items-center justify-center rounded-lg ring-1 bg-white/5 ring-white/10">
 												<CreditCard className="w-4 h-4" />
 											</span>
 											Categorias
-										</a>
+										</Link>
 									</nav>
 								</div>
 
