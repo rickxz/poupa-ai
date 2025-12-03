@@ -1,4 +1,13 @@
+import { useState } from 'react'
+import { AddIncomeForm } from '@/components/forms/add-income-form'
+import { AddExpenseForm } from '@/components/forms/add-expense-form'
+import { NewTransactionForm } from '@/components/forms/new-transaction-form'
+
 export function DashboardPage() {
+	const [isIncomeModalOpen, setIsIncomeModalOpen] = useState(false)
+	const [isExpenseModalOpen, setIsExpenseModalOpen] = useState(false)
+	const [isTransactionModalOpen, setIsTransactionModalOpen] = useState(false)
+
 	return (
 		<div className="antialiased overflow-x-hidden selection:bg-white/10 selection:text-white text-neutral-100 bg-neutral-950 min-h-screen">
 			<header className="sticky supports-backdrop-filter:bg-neutral-950/60 border-neutral-800 z-50 border-b top-0 backdrop-blur">
@@ -188,21 +197,21 @@ export function DashboardPage() {
 						</div>
 
 						<div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-6">
-							<button className="flex items-center justify-center gap-2 rounded-2xl ring-1 p-4 border bg-emerald-600/95 hover:bg-emerald-600/70 ring-white/10 border-white/10 text-neutral-300 hover:text-white transition-colors">
+							<button onClick={() => setIsIncomeModalOpen(true)} className="flex items-center justify-center gap-2 rounded-2xl ring-1 p-4 border bg-emerald-600/95 hover:bg-emerald-600/70 ring-white/10 border-white/10 text-neutral-300 hover:text-white transition-colors">
 								<svg xmlns="http://www.w3.org/2000/svg" className="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
 									<path d="M12 5v14"></path>
 									<path d="M5 12h14"></path>
 								</svg>
 								<span className="text-sm font-medium tracking-tight">Adicionar Receita</span>
 							</button>
-							<button className="flex items-center justify-center gap-2 rounded-2xl ring-1 p-4 border bg-neutral-900/95 text-white hover:bg-neutral-900/70 ring-white/10 border-white/10 transition-colors">
+							<button onClick={() => setIsTransactionModalOpen(true)} className="flex items-center justify-center gap-2 rounded-2xl ring-1 p-4 border bg-neutral-900/95 text-white hover:bg-neutral-900/70 ring-white/10 border-white/10 transition-colors">
 								<svg xmlns="http://www.w3.org/2000/svg" className="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
 									<path d="M5 12h14"></path>
 									<path d="m12 5 7 7-7 7"></path>
 								</svg>
 								<span className="text-sm font-medium tracking-tight">Nova Transação</span>
 							</button>
-							<button className="flex items-center justify-center gap-2 rounded-2xl ring-1 p-4 border bg-red-500/95 hover:bg-red-500/70 ring-white/10 border-white/10 text-neutral-300 hover:text-white transition-colors">
+							<button onClick={() => setIsExpenseModalOpen(true)} className="flex items-center justify-center gap-2 rounded-2xl ring-1 p-4 border bg-red-500/95 hover:bg-red-500/70 ring-white/10 border-white/10 text-neutral-300 hover:text-white transition-colors">
 								<svg xmlns="http://www.w3.org/2000/svg" className="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
 									<path d="M5 12h14"></path>
 								</svg>
@@ -534,6 +543,10 @@ export function DashboardPage() {
 					</main>
 				</div>
 			</section>
+
+			<AddIncomeForm isOpen={isIncomeModalOpen} onClose={() => setIsIncomeModalOpen(false)} />
+			<AddExpenseForm isOpen={isExpenseModalOpen} onClose={() => setIsExpenseModalOpen(false)} />
+			<NewTransactionForm isOpen={isTransactionModalOpen} onClose={() => setIsTransactionModalOpen(false)} />
 		</div>
 	)
 }
