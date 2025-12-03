@@ -1,4 +1,4 @@
-import { RadarChart as RechartsRadar, PolarGrid, PolarAngleAxis, PolarRadiusAxis, Radar, ResponsiveContainer } from 'recharts'
+import { RadarChart as RechartsRadar, PolarGrid, PolarAngleAxis, PolarRadiusAxis, Radar, ResponsiveContainer, Tooltip } from 'recharts'
 
 interface RadarChartProps {
 	data: {
@@ -25,7 +25,7 @@ export function RadarChart({ data, height = 'h-56 md:h-64' }: RadarChartProps) {
 	}))
 
 	return (
-		<div className={`relative ${height}`}>
+		<div className={`relative ${height} [&_svg]:outline-none **:outline-none`}>
 			<ResponsiveContainer width="100%" height="100%">
 				<RechartsRadar data={chartData}>
 					<PolarGrid stroke="rgba(255,255,255,0.08)" />
@@ -36,6 +36,17 @@ export function RadarChart({ data, height = 'h-56 md:h-64' }: RadarChartProps) {
 					<PolarRadiusAxis
 						tick={{ fill: 'transparent' }}
 						axisLine={false}
+					/>
+					<Tooltip
+						contentStyle={{
+							backgroundColor: 'rgba(17,24,39,0.95)',
+							border: 'none',
+							borderRadius: '8px',
+							color: '#fff',
+						}}
+						labelStyle={{ color: '#fff' }}
+						itemStyle={{ color: '#e5e7eb' }}
+						cursor={{ fill: 'rgba(255, 255, 255, 0.3)' }}
 					/>
 					<Radar
 						name={data.datasets[0].label}

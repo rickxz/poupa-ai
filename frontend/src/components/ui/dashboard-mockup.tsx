@@ -14,7 +14,7 @@ const chartData = [
 
 export function DashboardMockup() {
 	return (
-		<div className="rounded-2xl ring-1 p-6 border backdrop-blur-md bg-neutral-950/80 border-white/10 ring-white/5 shadow-[0_20px_60px_rgba(0,0,0,0.5)]">
+		<div className="rounded-2xl ring-1 p-6 border backdrop-blur-md bg-neutral-950/80 border-white/10 ring-white/5 shadow-[0_20px_60px_rgba(0,0,0,0.5)] [&_svg]:outline-none **:outline-none">
 			<div className="flex flex-col w-full h-full">
 				<div className="flex items-start justify-between mb-4">
 					<div>
@@ -50,6 +50,7 @@ export function DashboardMockup() {
 									}}
 									labelStyle={{ color: '#fff' }}
 									itemStyle={{ color: '#e5e7eb' }}
+									cursor={{ fill: 'rgba(255, 255, 255, 0.3)' }}
 								/>
 								<Bar
 									dataKey="value"

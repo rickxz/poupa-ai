@@ -47,6 +47,7 @@ export function BarChart({ data, height = 'h-64 sm:h-80 md:h-96' }: BarChartProp
 						}}
 						labelStyle={{ color: '#fff' }}
 						itemStyle={{ color: '#e5e7eb' }}
+						cursor={{ fill: 'rgba(255, 255, 255, 0.3)' }}
 					/>
 					<Bar
 						dataKey="value"
