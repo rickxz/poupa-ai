@@ -1,14 +1,16 @@
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { z } from 'zod'
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { Modal } from '@/components/ui/modal'
+import { useCreateTransaction } from '@/hooks/use-transactions'
+import { useCategories } from '@/hooks/use-categories'
 
 const expenseSchema = z.object({
 	description: z.string().min(1, 'Descrição é obrigatória'),
 	amount: z.number({ error: 'Valor deve ser um número' }).positive('O valor deve ser positivo'),
 	date: z.string().min(1, 'Data é obrigatória'),
-	category: z.string().min(1, 'Categoria é obrigatória'),
+	categoryId: z.string().optional(),
 })
 
 type ExpenseFormData = z.infer<typeof expenseSchema>
@@ -18,21 +20,15 @@ interface AddExpenseFormProps {
 	onClose: () => void
 }
 
-const categories = [
-	{ value: 'alimentacao', label: 'Alimentação' },
-	{ value: 'transporte', label: 'Transporte' },
-	{ value: 'lazer', label: 'Lazer' },
-	{ value: 'saude', label: 'Saúde' },
-	{ value: 'educacao', label: 'Educação' },
-	{ value: 'moradia', label: 'Moradia' },
-	{ value: 'outros', label: 'Outros' },
-]
-
 export function AddExpenseForm({ isOpen, onClose }: AddExpenseFormProps) {
+	const [errorMessage, setErrorMessage] = useState<string | null>(null)
+	const createTransactionMutation = useCreateTransaction()
+	const { data: categories, isLoading: categoriesLoading } = useCategories()
+
 	const {
 		register,
 		handleSubmit,
-		formState: { errors, isSubmitting },
+		formState: { errors },
 		reset,
 	} = useForm<ExpenseFormData>({
 		resolver: zodResolver(expenseSchema),
@@ -41,18 +37,38 @@ export function AddExpenseForm({ isOpen, onClose }: AddExpenseFormProps) {
 	useEffect(() => {
 		if (!isOpen) {
 			reset()
+			setErrorMessage(null)
 		}
 	}, [isOpen, reset])
 
 	const onSubmit = async (data: ExpenseFormData) => {
-		console.log('Expense data:', data)
-		reset()
-		onClose()
+		setErrorMessage(null)
+		try {
+			await createTransactionMutation.mutateAsync({
+				description: data.description,
+				amount: data.amount,
+				date: data.date,
+				type: 'EXPENSE',
+				categoryId: data.categoryId ? parseInt(data.categoryId) : undefined,
+			})
+			reset()
+			onClose()
+		} catch (error: any) {
+			setErrorMessage(
+				error.response?.data?.message || 'Erro ao adicionar despesa. Tente novamente.'
+			)
+		}
 	}
 
 	return (
 		<Modal isOpen={isOpen} onClose={onClose} title="Adicionar Despesa">
 			<form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
+				{errorMessage && (
+					<div className="p-3 bg-red-500/10 border border-red-500/20 rounded-lg">
+						<p className="text-sm text-red-400">{errorMessage}</p>
+					</div>
+				)}
+
 				<div>
 					<label htmlFor="description" className="block text-sm font-medium mb-2 text-neutral-200">
 						Descrição
@@ -102,23 +118,24 @@ export function AddExpenseForm({ isOpen, onClose }: AddExpenseFormProps) {
 				</div>
 
 				<div>
-					<label htmlFor="category" className="block text-sm font-medium mb-2 text-neutral-200">
-						Categoria
+					<label htmlFor="categoryId" className="block text-sm font-medium mb-2 text-neutral-200">
+						Categoria (opcional)
 					</label>
 					<select
-						{...register('category')}
-						id="category"
-						className="w-full px-4 py-3 bg-neutral-800/50 border border-neutral-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent transition-all text-white [&>option]:bg-neutral-800 [&>option]:text-white"
+						{...register('categoryId')}
+						id="categoryId"
+						disabled={categoriesLoading}
+						className="w-full px-4 py-3 bg-neutral-800/50 border border-neutral-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent transition-all text-white [&>option]:bg-neutral-800 [&>option]:text-white disabled:opacity-50"
 					>
 						<option value="">Selecione uma categoria</option>
-						{categories.map((category) => (
-							<option key={category.value} value={category.value}>
-								{category.label}
+						{categories?.map((category) => (
+							<option key={category.id} value={category.id}>
+								{category.name}
 							</option>
 						))}
 					</select>
-					{errors.category && (
-						<p className="mt-1 text-sm text-red-400">{errors.category.message}</p>
+					{errors.categoryId && (
+						<p className="mt-1 text-sm text-red-400">{errors.categoryId.message}</p>
 					)}
 				</div>
 
@@ -132,10 +149,10 @@ export function AddExpenseForm({ isOpen, onClose }: AddExpenseFormProps) {
 					</button>
 					<button
 						type="submit"
-						disabled={isSubmitting}
+						disabled={createTransactionMutation.isPending}
 						className="flex-1 bg-red-500 hover:bg-red-600 disabled:bg-red-500/50 disabled:cursor-not-allowed text-white font-medium py-3 rounded-lg transition-all"
 					>
-						{isSubmitting ? 'Adicionando...' : 'Adicionar'}
+						{createTransactionMutation.isPending ? 'Adicionando...' : 'Adicionar'}
 					</button>
 				</div>
 			</form>

@@ -3,6 +3,8 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { z } from 'zod'
 import { Header } from '@/components/layout/header'
 import { Link } from 'react-router-dom'
+import { useRegister } from '@/hooks/use-auth'
+import { useState } from 'react'
 
 const signupSchema = z.object({
 	name: z.string().min(1, 'Nome é obrigatório'),
@@ -17,16 +19,33 @@ const signupSchema = z.object({
 type SignupFormData = z.infer<typeof signupSchema>
 
 export function SignupPage() {
+	const [errorMessage, setErrorMessage] = useState<string | null>(null)
+	const [successMessage, setSuccessMessage] = useState<string | null>(null)
+	const registerMutation = useRegister()
+
 	const {
 		register,
 		handleSubmit,
-		formState: { errors, isSubmitting },
+		formState: { errors },
 	} = useForm<SignupFormData>({
 		resolver: zodResolver(signupSchema),
 	})
 
 	const onSubmit = async (data: SignupFormData) => {
-		console.log('Signup data:', data)
+		setErrorMessage(null)
+		setSuccessMessage(null)
+		try {
+			await registerMutation.mutateAsync({
+				name: data.name,
+				email: data.email,
+				password: data.password,
+			})
+			setSuccessMessage('Conta criada com sucesso! Redirecionando para login...')
+		} catch (error: any) {
+			setErrorMessage(
+				error.response?.data?.message || 'Erro ao criar conta. Tente novamente.'
+			)
+		}
 	}
 
 	return (
@@ -48,6 +67,18 @@ export function SignupPage() {
 						</div>
 
 						<form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
+							{errorMessage && (
+								<div className="p-3 bg-red-500/10 border border-red-500/20 rounded-lg">
+									<p className="text-sm text-red-400">{errorMessage}</p>
+								</div>
+							)}
+
+							{successMessage && (
+								<div className="p-3 bg-emerald-500/10 border border-emerald-500/20 rounded-lg">
+									<p className="text-sm text-emerald-400">{successMessage}</p>
+								</div>
+							)}
+
 							<div>
 								<label htmlFor="name" className="block text-sm font-medium mb-2">
 									Nome
@@ -114,10 +145,10 @@ export function SignupPage() {
 
 							<button
 								type="submit"
-								disabled={isSubmitting}
+								disabled={registerMutation.isPending}
 								className="w-full bg-emerald-500 hover:bg-emerald-600 disabled:bg-emerald-500/50 disabled:cursor-not-allowed text-white font-semibold py-3 rounded-lg transition-all shadow-lg shadow-emerald-500/20"
 							>
-								{isSubmitting ? 'Cadastrando...' : 'Cadastrar'}
+								{registerMutation.isPending ? 'Cadastrando...' : 'Cadastrar'}
 							</button>
 						</form>
 

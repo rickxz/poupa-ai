@@ -1,8 +1,9 @@
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { z } from 'zod'
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { Modal } from '@/components/ui/modal'
+import { useCreateTransaction } from '@/hooks/use-transactions'
 
 const incomeSchema = z.object({
 	description: z.string().min(1, 'Descrição é obrigatória'),
@@ -18,10 +19,13 @@ interface AddIncomeFormProps {
 }
 
 export function AddIncomeForm({ isOpen, onClose }: AddIncomeFormProps) {
+	const [errorMessage, setErrorMessage] = useState<string | null>(null)
+	const createTransactionMutation = useCreateTransaction()
+
 	const {
 		register,
 		handleSubmit,
-		formState: { errors, isSubmitting },
+		formState: { errors },
 		reset,
 	} = useForm<IncomeFormData>({
 		resolver: zodResolver(incomeSchema),
@@ -30,18 +34,37 @@ export function AddIncomeForm({ isOpen, onClose }: AddIncomeFormProps) {
 	useEffect(() => {
 		if (!isOpen) {
 			reset()
+			setErrorMessage(null)
 		}
 	}, [isOpen, reset])
 
 	const onSubmit = async (data: IncomeFormData) => {
-		console.log('Income data:', data)
-		reset()
-		onClose()
+		setErrorMessage(null)
+		try {
+			await createTransactionMutation.mutateAsync({
+				description: data.description,
+				amount: data.amount,
+				date: data.date,
+				type: 'INCOME',
+			})
+			reset()
+			onClose()
+		} catch (error: any) {
+			setErrorMessage(
+				error.response?.data?.message || 'Erro ao adicionar receita. Tente novamente.'
+			)
+		}
 	}
 
 	return (
 		<Modal isOpen={isOpen} onClose={onClose} title="Adicionar Receita">
 			<form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
+				{errorMessage && (
+					<div className="p-3 bg-red-500/10 border border-red-500/20 rounded-lg">
+						<p className="text-sm text-red-400">{errorMessage}</p>
+					</div>
+				)}
+
 				<div>
 					<label htmlFor="description" className="block text-sm font-medium mb-2 text-neutral-200">
 						Descrição
@@ -100,10 +123,10 @@ export function AddIncomeForm({ isOpen, onClose }: AddIncomeFormProps) {
 					</button>
 					<button
 						type="submit"
-						disabled={isSubmitting}
+						disabled={createTransactionMutation.isPending}
 						className="flex-1 bg-emerald-500 hover:bg-emerald-600 disabled:bg-emerald-500/50 disabled:cursor-not-allowed text-white font-medium py-3 rounded-lg transition-all"
 					>
-						{isSubmitting ? 'Adicionando...' : 'Adicionar'}
+						{createTransactionMutation.isPending ? 'Adicionando...' : 'Adicionar'}
 					</button>
 				</div>
 			</form>

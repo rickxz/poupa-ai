@@ -3,6 +3,8 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { z } from 'zod'
 import { Header } from '@/components/layout/header'
 import { Link } from 'react-router-dom'
+import { useLogin } from '@/hooks/use-auth'
+import { useState } from 'react'
 
 const loginSchema = z.object({
 	email: z.string().email('Email inválido'),
@@ -12,16 +14,26 @@ const loginSchema = z.object({
 type LoginFormData = z.infer<typeof loginSchema>
 
 export function LoginPage() {
+	const [errorMessage, setErrorMessage] = useState<string | null>(null)
+	const loginMutation = useLogin()
+
 	const {
 		register,
 		handleSubmit,
-		formState: { errors, isSubmitting },
+		formState: { errors },
 	} = useForm<LoginFormData>({
 		resolver: zodResolver(loginSchema),
 	})
 
 	const onSubmit = async (data: LoginFormData) => {
-		console.log('Login data:', data)
+		setErrorMessage(null)
+		try {
+			await loginMutation.mutateAsync(data)
+		} catch (error: any) {
+			setErrorMessage(
+				error.response?.data?.message || 'Erro ao fazer login. Verifique suas credenciais.'
+			)
+		}
 	}
 
 	return (
@@ -43,6 +55,12 @@ export function LoginPage() {
 						</div>
 
 						<form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
+							{errorMessage && (
+								<div className="p-3 bg-red-500/10 border border-red-500/20 rounded-lg">
+									<p className="text-sm text-red-400">{errorMessage}</p>
+								</div>
+							)}
+
 							<div>
 								<label htmlFor="email" className="block text-sm font-medium mb-2">
 									E-mail
@@ -86,10 +104,10 @@ export function LoginPage() {
 
 							<button
 								type="submit"
-								disabled={isSubmitting}
+								disabled={loginMutation.isPending}
 								className="w-full bg-emerald-500 hover:bg-emerald-600 disabled:bg-emerald-500/50 disabled:cursor-not-allowed text-white font-semibold py-3 rounded-lg transition-all shadow-lg shadow-emerald-500/20"
 							>
-								{isSubmitting ? 'Entrando...' : 'Entrar'}
+								{loginMutation.isPending ? 'Entrando...' : 'Entrar'}
 							</button>
 						</form>
 

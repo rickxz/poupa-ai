@@ -3,11 +3,54 @@ import { AddIncomeForm } from '@/components/forms/add-income-form'
 import { AddExpenseForm } from '@/components/forms/add-expense-form'
 import { NewTransactionForm } from '@/components/forms/new-transaction-form'
 import { Link } from 'react-router-dom'
+import { useDashboard } from '@/hooks/use-dashboard'
+import { useLogout } from '@/hooks/use-auth'
+import { useDeleteTransaction } from '@/hooks/use-transactions'
 
 export function DashboardPage() {
 	const [isIncomeModalOpen, setIsIncomeModalOpen] = useState(false)
 	const [isExpenseModalOpen, setIsExpenseModalOpen] = useState(false)
 	const [isTransactionModalOpen, setIsTransactionModalOpen] = useState(false)
+
+	const { data: dashboard, isLoading, error } = useDashboard()
+	const logout = useLogout()
+	const deleteTransactionMutation = useDeleteTransaction()
+
+	const handleDeleteTransaction = async (id: number) => {
+		if (window.confirm('Tem certeza que deseja excluir esta transação?')) {
+			try {
+				await deleteTransactionMutation.mutateAsync(id)
+			} catch (error) {
+				alert('Erro ao excluir transação')
+			}
+		}
+	}
+
+	if (isLoading) {
+		return (
+			<div className="antialiased selection:bg-white/10 selection:text-white text-neutral-100 bg-neutral-950 min-h-screen flex items-center justify-center">
+				<div className="text-center">
+					<div className="inline-block h-8 w-8 animate-spin rounded-full border-4 border-solid border-emerald-500 border-r-transparent"></div>
+					<p className="mt-4 text-neutral-400">Carregando dashboard...</p>
+				</div>
+			</div>
+		)
+	}
+
+	if (error) {
+		return (
+			<div className="antialiased selection:bg-white/10 selection:text-white text-neutral-100 bg-neutral-950 min-h-screen flex items-center justify-center">
+				<div className="text-center">
+					<p className="text-red-400">Erro ao carregar dashboard</p>
+					<button onClick={() => logout()} className="mt-4 text-emerald-400 hover:text-emerald-300">
+						Voltar para login
+					</button>
+				</div>
+			</div>
+		)
+	}
+
+	if (!dashboard) return null
 
 	return (
 		<div className="antialiased overflow-x-hidden selection:bg-white/10 selection:text-white text-neutral-100 bg-neutral-950 min-h-screen">
@@ -23,7 +66,7 @@ export function DashboardPage() {
 								<Link to="/" className="text-sm text-neutral-400 hover:text-white transition-colors">Início</Link>
 								<div className="flex items-center gap-3">
 									<img className="w-8 h-8 object-cover ring-1 rounded-full ring-white/15" src="https://hoirqrkdgbmvpwutwuwj-all.supabase.co/storage/v1/object/public/assets/assets/2f70140f-4f5d-4ce1-bec2-b36510d07e52_320w.webp" alt="User" />
-									<button className="text-sm text-neutral-400 hover:text-white transition-colors">Sair</button>
+									<button onClick={logout} className="text-sm text-neutral-400 hover:text-white transition-colors">Sair</button>
 								</div>
 							</nav>
 
@@ -117,10 +160,11 @@ export function DashboardPage() {
 							<div className="flex items-start justify-between">
 								<div>
 									<div className="flex items-baseline gap-2">
-										<p className="text-3xl font-light tracking-tight text-white">R$ 742.560</p>
-										<span className="text-xs rounded-full px-2 py-0.5 font-medium text-neutral-900 bg-emerald-400">+2.1%</span>
+										<p className="text-3xl font-light tracking-tight text-white">
+											R$ {dashboard.currentBalance.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+										</p>
 									</div>
-									<p className="mt-1 text-xs text-neutral-400">Orçamento Mensal</p>
+									<p className="mt-1 text-xs text-neutral-400">Saldo Atual</p>
 								</div>
 							</div>
 
@@ -133,16 +177,17 @@ export function DashboardPage() {
 							</div>
 						</div>
 
-						<div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-4">
+						<div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
 							<div className="rounded-2xl ring-1 p-5 border bg-neutral-900/95 ring-white/10 border-white/10">
 								<div className="flex items-center justify-between">
 									<p className="text-sm text-neutral-400">Receitas Mensais</p>
 								</div>
 								<div className="mt-3 flex items-baseline gap-2">
-									<p className="text-3xl sm:text-xl font-semibold tracking-tight text-white">R$ 31.240,12</p>
-									<span className="text-xs rounded-full px-2 py-0.5 font-medium text-neutral-900 bg-emerald-400">+4.2%</span>
+									<p className="text-3xl sm:text-xl font-semibold tracking-tight text-white">
+										R$ {dashboard.totalIncome.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+									</p>
 								</div>
-								<p className="mt-1 text-xs text-neutral-500">vs. semana anterior</p>
+								<p className="mt-1 text-xs text-neutral-500">mês atual</p>
 							</div>
 
 							<div className="rounded-2xl ring-1 p-5 border bg-neutral-900/95 ring-white/10 border-white/10">
@@ -156,27 +201,11 @@ export function DashboardPage() {
 									</span>
 								</div>
 								<div className="mt-3 flex items-baseline gap-2">
-									<p className="text-3xl sm:text-xl font-semibold tracking-tight text-white">R$ 4.860,00</p>
-									<span className="text-xs rounded-full px-2 py-0.5 font-medium text-neutral-900 bg-emerald-400">-1.3%</span>
+									<p className="text-3xl sm:text-xl font-semibold tracking-tight text-white">
+										R$ {dashboard.totalExpenses.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+									</p>
 								</div>
-								<p className="mt-1 text-xs text-neutral-500">vs. semana anterior</p>
-							</div>
-
-							<div className="rounded-2xl ring-1 p-5 border bg-neutral-900/95 ring-white/10 border-white/10">
-								<div className="flex items-center justify-between">
-									<p className="text-sm text-neutral-400">Meta de Economia</p>
-									<span className="inline-flex h-8 w-8 items-center justify-center rounded-lg ring-1 bg-white/5 ring-white/10">
-										<svg xmlns="http://www.w3.org/2000/svg" className="w-4 h-4 text-neutral-300" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-											<circle cx="12" cy="12" r="10"></circle>
-											<path d="M12 6v6l4 2"></path>
-										</svg>
-									</span>
-								</div>
-								<div className="mt-3 flex items-baseline gap-2">
-									<p className="text-3xl sm:text-xl font-semibold tracking-tight text-white">R$ 2.140,00</p>
-									<span className="text-xs rounded-full px-2 py-0.5 font-medium text-neutral-900 bg-emerald-400">-0.9%</span>
-								</div>
-								<p className="mt-1 text-xs text-neutral-500">últimos 30 dias</p>
+								<p className="mt-1 text-xs text-neutral-500">mês atual</p>
 							</div>
 
 							<div className="rounded-2xl ring-1 p-5 border bg-neutral-900/95 ring-white/10 border-white/10">
@@ -190,8 +219,9 @@ export function DashboardPage() {
 									</span>
 								</div>
 								<div className="mt-3 flex items-baseline gap-2">
-									<p className="text-3xl sm:text-xl font-semibold tracking-tight text-white">R$ 3.980,55</p>
-									<span className="text-xs rounded-full px-2 py-0.5 font-medium text-neutral-900 bg-emerald-400">+1.7%</span>
+									<p className="text-3xl sm:text-xl font-semibold tracking-tight text-white">
+										R$ {dashboard.currentBalance.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+									</p>
 								</div>
 								<p className="mt-1 text-xs text-neutral-500">mês atual</p>
 							</div>
@@ -225,210 +255,94 @@ export function DashboardPage() {
 								<h3 className="text-lg font-semibold tracking-tight text-white">Transações Recentes</h3>
 								<Link to="#" className="text-sm text-emerald-300 hover:text-emerald-400 transition-colors">Ver todas</Link>
 							</div>
-							<div className="space-y-3">
-								<div className="flex items-center justify-between p-3 rounded-xl ring-1 bg-white/6 ring-white/10 hover:bg-white/8 transition-colors">
-									<div className="flex items-center gap-4 flex-1">
-										<div className="text-sm text-neutral-400 w-20">15/01</div>
-										<div className="flex-1">
-											<p className="text-sm font-medium text-white">Salário mensal</p>
-											<div className="flex items-center gap-2 mt-1">
-												<span className="text-xs px-2 py-0.5 rounded-full bg-emerald-500/15 text-emerald-300 ring-1 ring-emerald-400/30">Salário</span>
-												<span className="text-xs text-neutral-500">Receita</span>
+							{dashboard.recentTransactions.length === 0 ? (
+								<p className="text-center text-neutral-400 py-8">Nenhuma transação encontrada</p>
+							) : (
+								<div className="space-y-3">
+									{dashboard.recentTransactions.map((transaction) => (
+										<div key={transaction.id} className="flex items-center justify-between p-3 rounded-xl ring-1 bg-white/6 ring-white/10 hover:bg-white/8 transition-colors">
+											<div className="flex items-center gap-4 flex-1">
+												<div className="text-sm text-neutral-400 w-20">
+													{new Date(transaction.date).toLocaleDateString('pt-BR', { day: '2-digit', month: '2-digit' })}
+												</div>
+												<div className="flex-1">
+													<p className="text-sm font-medium text-white">{transaction.description}</p>
+													<div className="flex items-center gap-2 mt-1">
+														{transaction.category && (
+															<span className="text-xs px-2 py-0.5 rounded-full bg-emerald-500/15 text-emerald-300 ring-1 ring-emerald-400/30">
+																{transaction.category.name}
+															</span>
+														)}
+														<span className="text-xs text-neutral-500">
+															{transaction.type === 'INCOME' ? 'Receita' : 'Despesa'}
+														</span>
+													</div>
+												</div>
+												<div className="text-right">
+													<p className={`text-sm font-semibold ${transaction.type === 'INCOME' ? 'text-emerald-400' : 'text-red-400'}`}>
+														{transaction.type === 'INCOME' ? '+' : '-'}R$ {transaction.amount.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+													</p>
+												</div>
+												<div className="flex items-center gap-2">
+													<button className="p-2 rounded-lg hover:bg-white/5 transition-colors">
+														<svg xmlns="http://www.w3.org/2000/svg" className="w-4 h-4 text-neutral-400 hover:text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+															<path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
+															<path d="m18.5 2.5 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
+														</svg>
+													</button>
+													<button
+														onClick={() => handleDeleteTransaction(transaction.id)}
+														className="p-2 rounded-lg hover:bg-white/5 transition-colors"
+													>
+														<svg xmlns="http://www.w3.org/2000/svg" className="w-4 h-4 text-neutral-400 hover:text-red-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+															<path d="M3 6h18"></path>
+															<path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"></path>
+															<path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+														</svg>
+													</button>
+												</div>
 											</div>
 										</div>
-										<div className="text-right">
-											<p className="text-sm font-semibold text-emerald-400">+R$ 5.000,00</p>
-										</div>
-										<div className="flex items-center gap-2">
-											<button className="p-2 rounded-lg hover:bg-white/5 transition-colors">
-												<svg xmlns="http://www.w3.org/2000/svg" className="w-4 h-4 text-neutral-400 hover:text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-													<path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
-													<path d="m18.5 2.5 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
-												</svg>
-											</button>
-											<button className="p-2 rounded-lg hover:bg-white/5 transition-colors">
-												<svg xmlns="http://www.w3.org/2000/svg" className="w-4 h-4 text-neutral-400 hover:text-red-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-													<path d="M3 6h18"></path>
-													<path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"></path>
-													<path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
-												</svg>
-											</button>
-										</div>
-									</div>
+									))}
 								</div>
-
-								<div className="flex items-center justify-between p-3 rounded-xl ring-1 bg-white/6 ring-white/10 hover:bg-white/8 transition-colors">
-									<div className="flex items-center gap-4 flex-1">
-										<div className="text-sm text-neutral-400 w-20">14/01</div>
-										<div className="flex-1">
-											<p className="text-sm font-medium text-white">Supermercado</p>
-											<div className="flex items-center gap-2 mt-1">
-												<span className="text-xs px-2 py-0.5 rounded-full bg-emerald-500/15 text-emerald-300 ring-1 ring-emerald-400/30">Alimentação</span>
-												<span className="text-xs text-neutral-500">Despesa</span>
-											</div>
-										</div>
-										<div className="text-right">
-											<p className="text-sm font-semibold text-red-400">-R$ 350,00</p>
-										</div>
-										<div className="flex items-center gap-2">
-											<button className="p-2 rounded-lg hover:bg-white/5 transition-colors">
-												<svg xmlns="http://www.w3.org/2000/svg" className="w-4 h-4 text-neutral-400 hover:text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-													<path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
-													<path d="m18.5 2.5 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
-												</svg>
-											</button>
-											<button className="p-2 rounded-lg hover:bg-white/5 transition-colors">
-												<svg xmlns="http://www.w3.org/2000/svg" className="w-4 h-4 text-neutral-400 hover:text-red-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-													<path d="M3 6h18"></path>
-													<path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"></path>
-													<path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
-												</svg>
-											</button>
-										</div>
-									</div>
-								</div>
-
-								<div className="flex items-center justify-between p-3 rounded-xl ring-1 bg-white/6 ring-white/10 hover:bg-white/8 transition-colors">
-									<div className="flex items-center gap-4 flex-1">
-										<div className="text-sm text-neutral-400 w-20">13/01</div>
-										<div className="flex-1">
-											<p className="text-sm font-medium text-white">Uber</p>
-											<div className="flex items-center gap-2 mt-1">
-												<span className="text-xs px-2 py-0.5 rounded-full bg-emerald-500/15 text-emerald-300 ring-1 ring-emerald-400/30">Transporte</span>
-												<span className="text-xs text-neutral-500">Despesa</span>
-											</div>
-										</div>
-										<div className="text-right">
-											<p className="text-sm font-semibold text-red-400">-R$ 45,50</p>
-										</div>
-										<div className="flex items-center gap-2">
-											<button className="p-2 rounded-lg hover:bg-white/5 transition-colors">
-												<svg xmlns="http://www.w3.org/2000/svg" className="w-4 h-4 text-neutral-400 hover:text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-													<path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
-													<path d="m18.5 2.5 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
-												</svg>
-											</button>
-											<button className="p-2 rounded-lg hover:bg-white/5 transition-colors">
-												<svg xmlns="http://www.w3.org/2000/svg" className="w-4 h-4 text-neutral-400 hover:text-red-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-													<path d="M3 6h18"></path>
-													<path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"></path>
-													<path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
-												</svg>
-											</button>
-										</div>
-									</div>
-								</div>
-
-								<div className="flex items-center justify-between p-3 rounded-xl ring-1 bg-white/6 ring-white/10 hover:bg-white/8 transition-colors">
-									<div className="flex items-center gap-4 flex-1">
-										<div className="text-sm text-neutral-400 w-20">12/01</div>
-										<div className="flex-1">
-											<p className="text-sm font-medium text-white">Freelance Design</p>
-											<div className="flex items-center gap-2 mt-1">
-												<span className="text-xs px-2 py-0.5 rounded-full bg-emerald-500/15 text-emerald-300 ring-1 ring-emerald-400/30">Trabalho</span>
-												<span className="text-xs text-neutral-500">Receita</span>
-											</div>
-										</div>
-										<div className="text-right">
-											<p className="text-sm font-semibold text-emerald-400">+R$ 1.200,00</p>
-										</div>
-										<div className="flex items-center gap-2">
-											<button className="p-2 rounded-lg hover:bg-white/5 transition-colors">
-												<svg xmlns="http://www.w3.org/2000/svg" className="w-4 h-4 text-neutral-400 hover:text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-													<path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
-													<path d="m18.5 2.5 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
-												</svg>
-											</button>
-											<button className="p-2 rounded-lg hover:bg-white/5 transition-colors">
-												<svg xmlns="http://www.w3.org/2000/svg" className="w-4 h-4 text-neutral-400 hover:text-red-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-													<path d="M3 6h18"></path>
-													<path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"></path>
-													<path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
-												</svg>
-											</button>
-										</div>
-									</div>
-								</div>
-
-								<div className="flex items-center justify-between p-3 rounded-xl ring-1 bg-white/6 ring-white/10 hover:bg-white/8 transition-colors">
-									<div className="flex items-center gap-4 flex-1">
-										<div className="text-sm text-neutral-400 w-20">11/01</div>
-										<div className="flex-1">
-											<p className="text-sm font-medium text-white">Netflix</p>
-											<div className="flex items-center gap-2 mt-1">
-												<span className="text-xs px-2 py-0.5 rounded-full bg-emerald-500/15 text-emerald-300 ring-1 ring-emerald-400/30">Lazer</span>
-												<span className="text-xs text-neutral-500">Despesa</span>
-											</div>
-										</div>
-										<div className="text-right">
-											<p className="text-sm font-semibold text-red-400">-R$ 45,90</p>
-										</div>
-										<div className="flex items-center gap-2">
-											<button className="p-2 rounded-lg hover:bg-white/5 transition-colors">
-												<svg xmlns="http://www.w3.org/2000/svg" className="w-4 h-4 text-neutral-400 hover:text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-													<path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
-													<path d="m18.5 2.5 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
-												</svg>
-											</button>
-											<button className="p-2 rounded-lg hover:bg-white/5 transition-colors">
-												<svg xmlns="http://www.w3.org/2000/svg" className="w-4 h-4 text-neutral-400 hover:text-red-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-													<path d="M3 6h18"></path>
-													<path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"></path>
-													<path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
-												</svg>
-											</button>
-										</div>
-									</div>
-								</div>
-							</div>
+							)}
 						</div>
 
 						<div className="rounded-2xl ring-1 p-5 border bg-neutral-900/95 ring-white/10 border-white/10 mt-6">
 							<h3 className="text-lg font-semibold tracking-tight text-white mb-4">Gastos por Categoria</h3>
-							<div className="grid grid-cols-1 md:grid-cols-2 gap-6 items-center">
-								<div className="relative h-64">
-									<div className="w-full h-full flex items-center justify-center text-neutral-500">
-										[Chart Placeholder]
+							{dashboard.spendingByCategory.length === 0 ? (
+								<p className="text-center text-neutral-400 py-8">Nenhum gasto por categoria encontrado</p>
+							) : (
+								<div className="grid grid-cols-1 md:grid-cols-2 gap-6 items-center">
+									<div className="relative h-64">
+										<div className="w-full h-full flex items-center justify-center text-neutral-500">
+											[Chart Placeholder]
+										</div>
+									</div>
+									<div className="space-y-3">
+										{dashboard.spendingByCategory.map((category, index) => {
+											const colors = ['bg-emerald-400', 'bg-emerald-500', 'bg-lime-400', 'bg-emerald-600', 'bg-neutral-500']
+											const percentage = dashboard.totalExpenses > 0
+												? ((category.totalAmount / dashboard.totalExpenses) * 100).toFixed(0)
+												: 0
+											return (
+												<div key={category.categoryName} className="flex items-center justify-between p-3 rounded-xl bg-white/6 ring-1 ring-white/10">
+													<div className="flex items-center gap-3">
+														<div className={`w-3 h-3 rounded-full ${colors[index % colors.length]}`}></div>
+														<span className="text-sm text-white">{category.categoryName}</span>
+													</div>
+													<div className="text-right">
+														<span className="text-sm font-semibold text-white mr-2">
+															R$ {category.totalAmount.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+														</span>
+														<span className="text-xs text-neutral-400">({percentage}%)</span>
+													</div>
+												</div>
+											)
+										})}
 									</div>
 								</div>
-								<div className="space-y-3">
-									<div className="flex items-center justify-between p-3 rounded-xl bg-white/6 ring-1 ring-white/10">
-										<div className="flex items-center gap-3">
-											<div className="w-3 h-3 rounded-full bg-emerald-400"></div>
-											<span className="text-sm text-white">Alimentação</span>
-										</div>
-										<span className="text-sm font-semibold text-white">35%</span>
-									</div>
-									<div className="flex items-center justify-between p-3 rounded-xl bg-white/6 ring-1 ring-white/10">
-										<div className="flex items-center gap-3">
-											<div className="w-3 h-3 rounded-full bg-emerald-500"></div>
-											<span className="text-sm text-white">Transporte</span>
-										</div>
-										<span className="text-sm font-semibold text-white">25%</span>
-									</div>
-									<div className="flex items-center justify-between p-3 rounded-xl bg-white/6 ring-1 ring-white/10">
-										<div className="flex items-center gap-3">
-											<div className="w-3 h-3 rounded-full bg-lime-400"></div>
-											<span className="text-sm text-white">Lazer</span>
-										</div>
-										<span className="text-sm font-semibold text-white">20%</span>
-									</div>
-									<div className="flex items-center justify-between p-3 rounded-xl bg-white/6 ring-1 ring-white/10">
-										<div className="flex items-center gap-3">
-											<div className="w-3 h-3 rounded-full bg-emerald-600"></div>
-											<span className="text-sm text-white">Saúde</span>
-										</div>
-										<span className="text-sm font-semibold text-white">15%</span>
-									</div>
-									<div className="flex items-center justify-between p-3 rounded-xl bg-white/6 ring-1 ring-white/10">
-										<div className="flex items-center gap-3">
-											<div className="w-3 h-3 rounded-full bg-neutral-500"></div>
-											<span className="text-sm text-white">Outros</span>
-										</div>
-										<span className="text-sm font-semibold text-white">5%</span>
-									</div>
-								</div>
-							</div>
+							)}
 						</div>
 
 						<div className="rounded-2xl ring-1 p-5 border bg-neutral-900/95 ring-emerald-500/30 border-white/10 mt-6 relative overflow-hidden">
